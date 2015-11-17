@@ -1,0 +1,44 @@
+{ 
+text: '.',
+children: [{
+    text:'用户管理',
+    expanded: false,
+    children:[{
+        text:'用户查询',
+        id:'queryuser', 
+        href:'javascript:menuLink(\'用户查询\',\'list.jsp\',\'queryuser\')',
+        leaf:true
+    },{
+        text:'用户添加',
+        id:'adduser',
+         href:'javascript:menuLink(\'用户添加\',\'list.jsp\',\'adduser\')',
+        leaf:true
+    }]
+},{
+    text:'角色管理',
+    children:[{
+        text:'角色查询',
+        id:'queryrole',
+        href:'javascript:menuLink(\'角色查询\',\'list.jsp\',\'queryrole\')',
+        leaf:true
+    },{
+        text:'角色添加',
+        id:'addrole',
+        href:'javascript:menuLink(\'角色添加\',\'list.jsp\',\'addrole\')',
+        leaf:true
+    }]
+},{
+    text:'权限管理',
+    children:[{
+        text:'权限查询',
+        id:'querymenu',
+        href:'javascript:menuLink(\'权限查询\',\'list.jsp\',\'querymenu\')',
+        leaf:true
+    },{
+        text:'权限添加',
+        id:'addmenu',
+        href:'javascript:menuLink(\'权限添加\',\'list.jsp\',\'addmenu\')',
+        leaf:true
+    }]
+}]
+}
