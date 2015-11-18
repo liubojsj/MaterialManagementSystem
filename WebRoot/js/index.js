@@ -16,7 +16,7 @@ Ext.onReady(function() {
 							autoScroll : true
 						},
 						items : [{
-									title : '主界面',
+									title : '工作台',
 									html : '123456'
 								}]
 					});
@@ -31,8 +31,11 @@ Ext.onReady(function() {
 						}
 					});
 
+			/**
+			 * 设置左侧项目栏
+			 */
 			var treePanel = Ext.create('Ext.tree.Panel', {
-						title: 'TreePanel',
+						title : '廉政监督',
 						id : 'tree-panel',
 						rootVisible : false,
 						autoScroll : true,
@@ -40,20 +43,32 @@ Ext.onReady(function() {
 						store : store
 
 					});
-			var accordionPanel = Ext.create('Ext.panel.Panel', {
-						//设置边框,为0时不显示
-						border:0,
-						//title : 'Accordion and TreePanel',
-						//设置收缩图标
-						collapsible : false,
-						layout : 'accordion',
 
+			var accordionPanel = Ext.create('Ext.panel.Panel', {
+						border : 0,
+						title:'',  
+                                width:'100%',  
+                                height:600,  
+                                x:0,   //设置Panel的位置  
+                                y:0,  
+                                layout:'accordion', //布局为accordion  
+                                renderTo:Ext.getBody(),  
+                                defaults: {   
+                                    bodyStyle: 'padding:5px'      
+                                },  
+                                layoutConfig: {          
+                                    titleCollapse: true,    //设置为点击整个标题栏都可以收缩     
+                                    animate: true,  //开启默认动画效果         
+                                    activeOnTop: true   //展开的面板总是在最顶层        
+                                },       
+ 
+ 
 						items : [treePanel, {
-									title : 'Item 2',
-									html : 'Some content'
+									title : 'Panel2',
+									html : 'Panel Content2'
 								}, {
-									title : '系统管理',
-									html : 'Some content'
+									title : 'Panel3',
+									html : 'Panel Content3'
 								}]
 					})
 
@@ -68,9 +83,9 @@ Ext.onReady(function() {
 						items : [{
 									region : 'north',
 									collapsible : false,
-									title : '大额物资采购管理',
+									title : '唐山站成本支出大项监管运用平台',
 									height : 100,
-									html : '<center><h1>大额物资采购管理</h1></center>'
+									html : '<center><h1>唐山站成本支出大项监管运用平台</h1></center>'
 								}, {
 									region : 'west',
 									collapsible : false,

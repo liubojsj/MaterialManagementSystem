@@ -1,13 +1,4 @@
 
-{recordCount:[10],recordList:[
-{userName:'liuyunfeng1',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng2',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng3',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng4',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng5',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng6',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng7',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng8',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng9',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'},
-{userName:'liuyunfeng10',password:'123456',roleName:'superAdmin',regitime:'2014-07-01',loginTime:'2014-07-01'}
+{recordCount:[1],recordList:[
+{userName:'卫生纸',password:'123456',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼'}
 ]}
