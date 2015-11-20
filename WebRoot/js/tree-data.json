@@ -1,43 +1,43 @@
 { 
 text: '.',
 children: [{
-    text:'科目管理',
+    text:'权利分工',
     expanded: false,
     children:[{
-        text:'科目查询',
+        text:'受控事项',
         id:'queryuser', 
         href:'javascript:menuLink(\'科目查询\',\'accountlist.jsp\',\'queryuser\')',
         leaf:true
     },{
         text:'科目添加',
         id:'adduser',
-         href:'javascript:menuLink(\'科目添加\',\'accountlist.jsp\',\'adduser\')',
+         href:'javascript:menuLink(\'科目添加\',\'addaccount.jsp\',\'adduser\')',
         leaf:true
     }]
 },{
-    text:'物品管理',
+    text:'事项管理',
     children:[{
-        text:'物品查询',
+        text:'运作公示',
         id:'queryrole',
         href:'javascript:menuLink(\'物品查询\',\'list.jsp\',\'queryrole\')',
         leaf:true
     },{
         text:'物品添加',
         id:'addrole',
-        href:'javascript:menuLink(\'物品添加\',\'list.jsp\',\'addrole\')',
+        href:'javascript:menuLink(\'物品添加\',\'addmaterials.jsp\',\'addrole\')',
         leaf:true
     }]
 },{
-    text:'评价管理',
+    text:'评价监督',
     children:[{
-        text:'评价查询',
+        text:'公示评价',
         id:'querymenu',
-        href:'javascript:menuLink(\'评价查询\',\'list.jsp\',\'querymenu\')',
+        href:'javascript:menuLink(\'评价查询\',\'appraiselist.jsp\',\'querymenu\')',
         leaf:true
     },{
-        text:'评价添加',
+        text:'评价留言',
         id:'addmenu',
-        href:'javascript:menuLink(\'评价添加\',\'list.jsp\',\'addmenu\')',
+        href:'javascript:menuLink(\'评价添加\',\'addappraise.jsp\',\'addmenu\')',
         leaf:true
     }]
 }]

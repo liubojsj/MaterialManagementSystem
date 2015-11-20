@@ -1,4 +1,6 @@
 
-{recordCount:[1],recordList:[
-{serialNumber:'1',accountNumber:'1603',accountName:'更新改造',usedepartment:'办公室',classificationName:'10.00',registerTime:'2014-07-01'}
+{accountCount:[10],accountList:[
+{serialNumber:'1',accountNumber:'卫生纸',accountName:'更新改造',usedepartment:'办公室',classificationName:'自用',registerTime:'2014-07-01'},
+{serialNumber:'2',accountNumber:'圆珠笔',accountName:'更新改造',usedepartment:'办公室',classificationName:'自用',registerTime:'2014-07-01'},
+{serialNumber:'3',accountNumber:'扫帚',accountName:'更新改造',usedepartment:'办公室',classificationName:'自用',registerTime:'2014-07-01'}
 ]}

@@ -3,12 +3,14 @@ Ext.onReady(function(){
 	Ext.define('Bussiness', {  
          extend: 'Ext.data.Model',  
          fields: [  
+        	 {name: 'serialNumber',  type: 'string'},
              {name: 'userName',  type: 'string'},  
              {name: 'password',  type: 'string'},  
              {name: 'price',     type: 'string'},  
              {name: 'roleName',  type: 'string'},  
              {name: 'regitime',  type: 'string'},  
-             {name: 'loginTime', type: 'string'} 
+             {name: 'loginTime', type: 'string'},
+             {name: 'supplyMode', type: 'string'} 
          ]  
      });  
 	
@@ -46,13 +48,14 @@ Ext.onReady(function(){
                     }  
                 }  
             ],columns: [  
+            	{header:'序号',dataIndex:'serialNumber',sortable : true},
                 {header:'名称',dataIndex:'userName',sortable : true},  
                 {header:'数量',dataIndex:'password',sortable : true},
                 {header:'单价',dataIndex:'price',sortable : true},
                 {header:'金额',dataIndex:'roleName',sortable : true}, 
                 {header:'入库时间',dataIndex:'regitime',sortable : true},  
                 {header:'供应商',dataIndex:'loginTime',sortable : true},
-                {header:'供货方式',dataIndex:'action',sortable : true}
+                {header:'供货方式',dataIndex:'supplyMode',sortable : true}
             ],dockedItems:[{
 	            xtype: 'pagingtoolbar',  
 	            dock: 'bottom',  

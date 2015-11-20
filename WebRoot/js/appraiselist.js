@@ -17,7 +17,7 @@ Ext.onReady(function(){
           pageSize:10,
           proxy:{  
           type: 'ajax',  
-            url:'./js/account-data.json',  
+            url:'./js/appraise-data.json',  
             reader:{  
                 type:'json',  
                 totalProperty:'accountCount',    
@@ -48,10 +48,10 @@ Ext.onReady(function(){
             ],columns: [  
                 {header:'序号',dataIndex:'serialNumber',sortable : true},  
                 {header:'品名',dataIndex:'accountNumber',sortable : true},
-                {header:'科目名称',dataIndex:'accountName',sortable : true},
+                {header:'采购部门',dataIndex:'accountName',sortable : true},
                 {header:'使用部门',dataIndex:'usedepartment',sortable : true}, 
-                {header:'类别',dataIndex:'classificationName',sortable : true},  
-                {header:'启用期间',dataIndex:'registerTime',sortable : true}
+                {header:'评价',dataIndex:'classificationName',sortable : true},  
+                {header:'评价时间',dataIndex:'registerTime',sortable : true}
             ],dockedItems:[{
 	            xtype: 'pagingtoolbar',  
 	            dock: 'bottom',  

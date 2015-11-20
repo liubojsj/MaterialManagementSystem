@@ -1,4 +1,13 @@
 
-{recordCount:[1],recordList:[
-{userName:'卫生纸',password:'123456',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼'}
+{recordCount:[10],recordList:[
+{serialNumber:'1',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'2',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'3',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'4',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'5',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'6',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'7',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'8',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'9',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'},
+{serialNumber:'10',userName:'卫生纸',password:'1',price:'10.00',roleName:'10.00',regitime:'2014-07-01',loginTime:'百货大楼',supplyMode:'自采'}
 ]}
