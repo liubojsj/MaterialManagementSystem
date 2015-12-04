@@ -5,8 +5,13 @@ children: [{
     expanded: false,
     children:[{
         text:'受控事项',
-        id:'queryuser', 
-        href:'javascript:menuLink(\'受控事项\',\'accountlist.jsp\',\'queryuser\')',
+        id:'control_item', 
+        href:'javascript:menuLink(\'受控事项\',\'control_item_list.jsp\',\'control_item\')',
+        leaf:true
+    },{
+        text:'零小维修',
+        id:'wee_maintain', 
+        href:'javascript:menuLink(\'零小维修\',\'wee_maintain_list.jsp\',\'wee_maintain\')',
         leaf:true
     },{
         text:'科目添加',

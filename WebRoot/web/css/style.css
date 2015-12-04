@@ -1,0 +1,277 @@
+﻿body {
+	font-family: "宋体", Verdana, "Times New Roman";
+	font-size: 12px;
+	color: #222;
+	text-decoration: none;
+	margin: 0px;
+	padding: 0px;
+}
+ 
+.wrapper {
+	font-family: "宋体", Verdana, "Times New Roman";
+	font-size: 12px;
+	color: #222;
+	text-decoration: none;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	background-color: #CCC;
+}
+.background {
+	margin: 0;
+	padding: 0px;
+	height: 100%;
+	width: 952px;
+	text-align: center;
+	background-color: #fff;
+	border-left: 0px solid #999;
+	border-right: 0px solid #999;
+}
+.maineare {
+	height: 100%;
+	width: 952px;
+	background-position: top;
+	background-color: #ffffff;
+}
+.top-banner {
+	height: 100px;
+	width: 942px;
+	background-image: url(/.bidnewsspring/css/banner-ymyt.jpg);
+	background-repeat: no-repeat;
+}
+.top-img {
+	height: 150px;
+	width: 942px;
+	background-image: url(/.bidnewsspring/css/img-ymyt.jpg);
+	background-repeat: no-repeat;
+}
+
+.nav-backgb {
+	padding-top: 0px;
+	padding-left: 60px;
+	height: 30px;
+	background-image: url(/.bidnewsspring/css/index-c_07.gif);
+	text-align: center;
+}
+
+.input {
+	width: 150px;
+}
+.footlink {
+	height: 16px;
+	margin-top: 8px;
+	margin-left: 32px;
+	font-size: 12px;
+	text-align: center;
+	color: #222;
+}
+.right {
+	margin-top: 8px;
+	margin-right: 32px;
+	height: 16px;
+	font-size: 11px;
+}
+.div {
+	border:#454545 1px solid;
+	width:300px;
+}
+.div-1 {
+	border:#d0d0d0 1px solid;
+	width:627px;
+}
+.ctitleinfo {
+	color:#000000;
+	line-height:32px;
+	background-color: #efe9d1;
+	height:32px;
+	text-align:left;
+	width:100%;
+}
+.ziti1 {
+	font-family: "宋体";
+	font-size: 12px;
+	line-height: 20px;
+	color: #7c7c7c;
+}
+.col {
+	color:#000000;
+	line-height:32px;
+	background-color: #feffe9;
+	text-align:right;
+	padding-right:10px;
+	border: 1px solid #e0e0e0;
+}
+.col-1 {
+	color:#000000;
+	line-height:32px;
+	background-color: #feffe9;
+	text-align:left;
+	border: 1px solid #e0e0e0;
+	padding-left: 10px;
+}
+.col-2 {
+	color:#000000;
+	line-height:32px;
+	background-color: #fffdd6;
+	text-align:center;
+	border: 1px solid #e0e0e0;
+	padding-left: 10px;
+}
+
+.col_white {
+	color:#000000;
+	line-height:32px;
+	background-color: #ffffff;
+	text-align:left;
+	
+	padding-left: 10px;
+}
+.searchcol {
+	color:#000000;
+	line-height:32px;
+	background-color: #fffdd6;
+	text-align:right;
+	border: 1px solid #e0e0e0;
+	padding-left: 10px;
+}
+
+.col1 {
+	color:#000000;
+	line-height:32px;
+	background-color: #fff;
+	text-align:left;
+	padding-left: 10px;
+	border: 1px solid #e0e0e0;
+}
+
+.col1_center {
+	color:#000000;
+	line-height:32px;
+	background-color: #fff;
+	text-align:center;
+	padding-left: 10px;
+	border: 1px solid #e0e0e0;
+}
+.col2 {
+	color:#000000;
+	line-height:32px;
+	background-color: #fff;
+	text-align:right;
+	padding-right: 10px;
+}
+
+
+.table_st {
+	border-collapse:collapse;
+	text-align:left;
+	margin:10 0 10 0;
+	border: 1px solid #e0e0e0;
+}
+.table_st th {
+	color:#000000;
+	line-height:32px;
+	background-color: #fffdd6;
+	height:32px;
+	text-align:center;
+	width:100%;
+	border-bottom:1px solid #e0e0e0;
+}
+
+.divider {
+	border-bottom : #b6bcc6 1px solid;
+}
+
+.mybutton {
+	BORDER-RIGHT: #7b9ebd 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #7b9ebd 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+    FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde);
+	BORDER-LEFT: #7b9ebd 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #7b9ebd 1px solid;
+	width: 70px;
+}
+.button-area {
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #ccc;
+	background-color: #fffdd6;
+	height: 50px;
+}
+
+.btn1_mouseout {
+	BORDER-RIGHT: #7EBF4F 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #7EBF4F 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#B3D997);
+	BORDER-LEFT: #7EBF4F 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #7EBF4F 1px solid
+}
+.btn1_mouseover {
+	BORDER-RIGHT: #7EBF4F 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #7EBF4F 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#CAE4B6);
+	BORDER-LEFT: #7EBF4F 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #7EBF4F 1px solid
+}
+.location {
+	line-height: 20px;
+	height: 20px;
+	padding-left: 10px;
+}
+.textbox  {
+	height: auto;
+	width: 95%;
+	line-height: 16px;
+	margin-top: 1px;
+	padding-top: 4px;
+	padding-bottom: 5px;
+	padding-right: 2px;
+	padding-left: 0px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	color: #222;
+	text-align: left;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #999;
+	margin-bottom: 5px;
+	list-style-position: outside;
+	margin-left: 0px;
+	list-style-image: url(/.bidnewsspring/css/bullet_white.png);
+}
+.datebox  {
+	text-align: right;
+	font-size: 11px;
+	color: #999;
+	float: right;
+}
+p {
+	text-indent: 24px;
+}
+
+table.layout{ width:98%;border-collapse:collapse; }
+table.layout tr td{  padding:4px;}
+table.layout tr td.top{ vertical-align:top;}
+
+

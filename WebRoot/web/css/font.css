@@ -1,0 +1,83 @@
+﻿.list_bar{
+	height:28px; 
+	line-height:28px; 
+	width:100%; 
+	background-image:url(title-bg.gif); 
+	color:#d14500; 
+	text-indent:10px;
+	margin-top:10px;
+	text-align:left;
+}
+
+/*  位置 拦的样式*/
+
+ /*.list_bar a{font-weight:bold;} */
+.list_bar a:link {font-family: "宋体";
+	font-size: 13px;
+	line-height: 20px;
+	color: #333333;
+	text-decoration: none; 
+}
+.list_bar a:visited {
+	font-family: "宋体";
+	font-size: 13px;
+	line-height: 20px;
+	color: #7c7c7c;
+	text-decoration: none;
+}
+.list_bar a:hover{
+	font-family: "宋体";
+	font-size: 13px;
+	line-height: 20px;
+	color: #ff3300;
+	text-decoration: underline;
+}
+
+.page_main_msg{width:100%;}
+.left_row{margin-bottom:5px;}
+.list{border:#cccccc 0px solid;}
+.pic_news{width:100%;}
+
+.list_bar2{
+	height:20px; 
+	line-height:20px; 
+	width:100%; 
+	background-image:url(title-bg.gif); 
+	/*color:#d14500; */
+	text-indent:10px;
+	margin-top:8px;
+	text-align:left;
+	padding-bottom:4px;
+}
+.c1-body{          /* 上   右   下 ， 左*/
+	margin:2px 8px 5px 5px;
+	font-size: 12px;
+}
+
+.c1-bline{border-bottom:#999 1px dashed;border-top:1px;}
+.f-left{float:left}
+.clear{clear:both}
+.f-right{float:right}
+
+
+.c1-body a:link {font-family: "宋体";
+	font-size: 12px;
+	line-height: 20px;
+	color: #333333;
+	text-decoration: none; 
+}
+.c1-body a:visited {
+	font-family: "宋体";
+	font-size: 12px;
+	line-height: 20px;
+	color: #7c7c7c;
+	text-decoration: none;
+}
+.c1-body a:hover{
+	font-family: "宋体";
+	font-size: 12px;
+	line-height: 20px;
+	color: #ff3300;
+	text-decoration: underline;
+}
+

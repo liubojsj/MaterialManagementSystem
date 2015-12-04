@@ -1,0 +1,5 @@
+
+{recordCount:[10],recordList:[
+{work_order_id:'0001',facilities_id:'0001',facilities_name:'灯管',user_department_name:'票房', maintain_department_name:'房建车间',maintain_personnel_name:'张三',check_item:'电气',failure_cause:'烧毁',accessory:'灯管',maintain_data:'2015年11月2日星期四',complete_status:'完成',feedback_appraisement:'维修迅速',maintain_department_leader:'张W'},
+{work_order_id:'0002',facilities_id:'0002',facilities_name:'空调',user_department_name:'票房', maintain_department_name:'房建车间',maintain_personnel_name:'张三',check_item:'电气',failure_cause:'风扇不转',accessory:'风扇电机',maintain_data:'2015年11月26日星期四',complete_status:'完成',feedback_appraisement:'维修迅速',maintain_department_leader:'张W'}
+]}

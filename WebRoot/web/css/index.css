@@ -1,0 +1,39 @@
+#container {
+	margin: auto;
+	height: auto;
+	width: 1000px;
+	border: 2px dashed #0099CC;
+}
+
+#header {
+	height: 100px;
+	width: 997px;
+	border: 1px solid #0099CC;
+}
+#login_form {
+	position: relative;
+	padding: 0px;
+	height: 250px;
+	width: 250px;
+	border: 1px solid #0099CC;
+}
+#accordion_view {
+	border: 1px solid #0099FF;
+	position: relative;
+	height: auto;
+	width: 250px;
+}
+#menu {
+	float: right;
+	width: 745px;
+	height: 250px;
+	border: 1px solid #0099FF;
+	position: relative;
+	clear: both;
+}
+#bottom_view {
+	border: 1px solid #0099FF;
+	position: relative;
+	bottom: auto;
+}
+

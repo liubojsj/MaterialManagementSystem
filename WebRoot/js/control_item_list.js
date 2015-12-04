@@ -1,6 +1,6 @@
 Ext.onReady(function() {
 			var BodyH = document.documentElement.clientHeight;
-			Ext.define('account', {
+			Ext.define('control_item', {
 						extend : 'Ext.data.Model',
 						fields : [{
 									name : 'serialNumber',
@@ -24,15 +24,15 @@ Ext.onReady(function() {
 					});
 
 			var store = Ext.create('Ext.data.Store', {
-						model : 'account',
+						model : 'control_item',
 						pageSize : 10,
 						proxy : {
 							type : 'ajax',
-							url : './js/appraise-data.json',
+							url : basePath+'js/control_item.json',
 							reader : {
 								type : 'json',
-								totalProperty : 'accountCount',
-								root : 'accountList'
+								totalProperty : 'recordCount',
+								root : 'recordList'
 							}
 						}
 					});
@@ -43,7 +43,7 @@ Ext.onReady(function() {
 						};
 						Ext.apply(store.proxy.extraParams, new_params);
 					});
-			var partcombo = Ext.create('Ext.form.field.ComboBox', {
+			var combo = Ext.create('Ext.form.field.ComboBox', {
 						hideLabel : true,
 						store : ['安技科', '客运科', '办公室', '计财科', '劳人科'],
 						displayField : 'state',
@@ -82,8 +82,8 @@ Ext.onReady(function() {
 													}
 												});
 									}
-								}, {xtype : 'label',
-									text : '部门：'},partcombo],
+								},{xtype : 'label',
+									text : '部门：'}, combo],
 						columns : [{
 									header : '序号',
 									dataIndex : 'serialNumber',
@@ -93,7 +93,7 @@ Ext.onReady(function() {
 									dataIndex : 'accountNumber',
 									sortable : true
 								}, {
-									header : '采购部门',
+									header : '科目名称',
 									dataIndex : 'accountName',
 									sortable : true
 								}, {
@@ -101,11 +101,11 @@ Ext.onReady(function() {
 									dataIndex : 'usedepartment',
 									sortable : true
 								}, {
-									header : '评价',
+									header : '类别',
 									dataIndex : 'classificationName',
 									sortable : true
 								}, {
-									header : '评价时间',
+									header : '启用期间',
 									dataIndex : 'registerTime',
 									sortable : true
 								}],

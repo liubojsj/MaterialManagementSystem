@@ -1,0 +1,238 @@
+﻿/*---------------------页面基础定义----------------------------------*/
+
+
+body,td,th {
+
+
+	font-family: Tahoma, Verdana, Arial, sans-serif;
+
+
+	font-size: 12px;
+
+
+	color: #333333;
+
+
+}
+
+
+body {
+
+
+	margin-left: 0px;
+
+
+	margin-top: 0px;
+
+
+	margin-right: 0px;
+
+
+	margin-bottom: 0px;
+
+
+}
+
+
+
+
+
+/*---------------------链接定义----------------------------------*/
+
+
+a {
+
+
+	color: #333333;
+
+
+	text-decoration: none;
+
+
+}
+
+
+a:hover {
+
+
+	color: #FF0000;
+
+
+	text-decoration: none;
+
+
+}
+
+
+a:active{
+
+
+	color: #FF0000;
+
+
+	text-decoration: none;
+
+
+}
+
+
+
+
+
+/*---------------------菜单样式----------------------------------*/
+
+
+#menu{
+
+
+	height:32px;
+
+ /* Cutted by zhang yu, since 2012.1.9
+	margin-top:8px; */
+
+	/*background-image:url(../images/menu_bg3.png);*/ 
+
+
+}
+
+
+#menu ul{
+
+
+	margin:auto; width:100%; height:32px;
+
+
+	list-style-type:none; padding:0px; margin-top:0px; margin-bottom:0px;
+
+
+}
+
+
+.m_li{
+
+
+	float:left; width:90px; line-height:32px;  text-align:center; margin-right:-2px; margin-left:-2px; font-weight:bold;
+
+
+}
+
+
+
+
+
+  .m_li a:link{display:block; color:#FFFFFF; width:90px;}
+
+
+  .m_li a:visited {display:block; color:#FFFFFF; width:90px;}
+
+
+  .m_li a:active {display:block; color:#FFFFFF; width:90px;}
+
+
+  .m_li a:hover {display:block; color:#FFFFFF; width:90px;}
+
+
+
+
+
+.m_line{
+
+
+	float:left; width:1px; height:32px;
+
+
+	line-height:32px;   /*ff下有效(图片垂直居中)*/
+
+
+}
+
+
+.m_line img{
+
+
+	margin-top: 9px;   /*ie下有效(图片垂直居中)*/
+
+
+}
+
+
+.m_li_a{
+
+
+	float:left; width:90px; line-height:32px; text-align:center; padding-top:3px; font-weight:bold;
+
+
+	background-image:url(img/menu_bg2.png); position:relative; height:32px; margin-top:-3px; margin-right:-2px; margin-left:-2px;
+
+
+}
+
+
+
+
+
+  .m_li_a a:link {display:block; color:#505050; width:90px;}
+
+
+  .m_li_a a:visited {display:block; color:#505050; width:90px;}
+
+
+  .m_li_a a:active {display:block; color:#505050; width:90px;}
+
+
+  .m_li_a a:hover {display:block; color:#505050; width:90px;}
+
+
+
+
+
+
+
+
+.smenu{
+
+
+	width:100%; margin:0px auto 0px auto; padding:0px; list-style-type:none; height:32px;
+
+
+}
+
+
+.s_li{
+
+
+	line-height:32px; width:auto; display:none; height:32px; 
+
+
+}
+
+
+
+  .s_li a:link {color:#505050; }
+
+  .s_li a:visited {color:#505050; }
+
+  .s_li a:active {color:#505050; }
+
+  .s_li a:hover {color:#505050; }
+
+  
+
+
+.s_li_a{
+
+
+	line-height:32px; width:auto; display:block; height:32px; 
+
+
+}
+
+  .s_li_a a:link {color:#505050; }
+
+  .s_li_a a:visited {color:#505050; }
+
+  .s_li_a a:active {color:#505050; }
+
+  .s_li_a a:hover {color:#505050; }
+
+

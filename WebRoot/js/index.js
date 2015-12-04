@@ -16,22 +16,34 @@ Ext.onReady(function() {
 			autoScroll : true
 		},
 		items : [{
-			title : '系统说明',
-			html : '<style type="text/css">'
-					+ '.STYLE1 {'
-					+ 'font-family: "新宋体";'
-					+ 'color: #0080FF;'
-					+ '}'
-					+ '.STYLE2 {color: #0080C0}+'
-					+
-
-					'</style>'
-					+ '<h2 align="center">&nbsp;</h2>'
-					+ '<h2 align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="STYLE2">为探索推行科学的成本管控方法,尊重全部干部职工参与管理，监督管理的热性，发动职工评价成本支出</span></h2>'
-					+ '<h2 align="center" class="STYLE2">效果，推荐更优比选方案。方便各管理部门共享信息查询资源，监督“权利”阳光运作，围绕除招投标管理事</h2>'
-					+ '<h2 align="center" class="STYLE2">项之外的“数量消耗相对较多，安全积累相对较多，采购相对有规律”的成本支出大项，进行决策过程、采购</h2>'
-					+ '<h2 align="left"><span class="STYLE2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-					+ '过程、支出效果的网上公开管理，同时设廉政质疑功能，接受干部和职工监督评价。</span></h2>'
+			title : '首页',
+			html : '<style type="text/css">'+
+					'.set_location {' +
+							'width: 900px;' +
+							'height: 300px;' +
+							'border: 3px #FFFFF dashed;' + //设置DIV边框为白色(背景色,好圈住文字不外跑)
+							'margin:0px auto;' +
+							'}'+
+					
+					'p.set_font {' +
+							'text-indent: 2em;' +   //首行缩进2字符
+							'text-align: left;' +   //文本左对齐
+							'font-size: 26px;' +    //字体大小
+							'font-family: "宋体";'+ //字体类型
+							'color: #0080C0;' +     //字体颜色
+							'line-height: 200%;'+   //行间距
+							'}'+
+					'</style>' +
+					'<div style = "text-align:center; margin-top:70px ">'+ //用于单独兼容IE8以下浏览器
+						'<div class = "set_location" >'+
+							'<p class = "set_font" >' +
+							'为探索、推行科学的成本管控方法，尊重全体干部职工参与管理，监督管理的热情，发动职工评价成本支出效'+
+							'果，推荐更优比选方案，方便各管理部门共享信息查询资源，监督“权利”阳光运作，围绕除“招投标管理事项”'+
+							'之外的“数量消耗相对较多，金额积累相对较多，采购相对呈现规律”的成本支出大项，进行“决策过程、采购过'+
+							'程、购置效果”的网上公开管理，同时设“廉政质疑”功能，接受干部职工监督评价。' +
+							'</p>' +
+						'</div>' +
+					'</div>'
 		}]
 	});
 	/**
@@ -217,7 +229,7 @@ function menuLink(text, url, menu_id, hiddenNaviFlag) {
 			&& hiddenNaviFlag != "" && hiddenNaviFlag == "Y") {
 		Ext.getCmp('westPanel').collapse();
 	}
-	var _url = webPath + '/' + url;
+	var _url = adminPath + '/' + url;
 
 	// 如果已打开同一窗口，则激活当前窗口并刷新
 	var currTab = Ext.get('tab' + menu_id);
