@@ -3,28 +3,43 @@ Ext.onReady(function() {
 			Ext.define('Bussiness', {
 						extend : 'Ext.data.Model',
 						fields : [{
-									name : 'serialNumber',
+									name : 'work_order_id',
 									type : 'string'
 								}, {
-									name : 'userName',
+									name : 'facilities_id',
 									type : 'string'
 								}, {
-									name : 'password',
+									name : 'facilities_name',
 									type : 'string'
 								}, {
-									name : 'price',
+									name : 'user_department_name',
 									type : 'string'
 								}, {
-									name : 'roleName',
+									name : 'maintain_department_name',
 									type : 'string'
 								}, {
-									name : 'regitime',
+									name : 'maintain_personnel_name',
 									type : 'string'
 								}, {
-									name : 'loginTime',
+									name : 'check_item',
 									type : 'string'
 								}, {
-									name : 'supplyMode',
+									name : 'failure_cause',
+									type : 'string'
+								}, {
+									name : 'accessory',
+									type : 'string'
+								}, {
+									name : 'maintain_data',
+									type : 'string'
+								}, {
+									name : 'complete_status',
+									type : 'string'
+								}, {
+									name : 'feedback_appraisement',
+									type : 'string'
+								}, {
+									name : 'maintain_department_leader',
 									type : 'string'
 								}]
 					});
@@ -34,7 +49,7 @@ Ext.onReady(function() {
 						pageSize : 10,
 						proxy : {
 							type : 'ajax',
-							url : './js/user-data.json',
+							url : './js/wee_maintain_list.json',
 							reader : {
 								type : 'json',
 								totalProperty : 'recordCount',
@@ -110,36 +125,56 @@ Ext.onReady(function() {
 									{xtype : 'label',
 									text : '部门：'},partcombo],
 						columns : [{
-									header : '序号',
-									dataIndex : 'serialNumber',
+									header : '工单号',
+									dataIndex : 'work_order_id',
 									sortable : true
 								}, {
-									header : '名称',
-									dataIndex : 'userName',
+									header : '设施编号',
+									dataIndex : 'facilities_id',
 									sortable : true
 								}, {
-									header : '数量',
-									dataIndex : 'password',
+									header : '设施名称',
+									dataIndex : 'facilities_name',
 									sortable : true
 								}, {
-									header : '单价',
-									dataIndex : 'price',
+									header : '使用部门',
+									dataIndex : 'user_department_name',
 									sortable : true
 								}, {
-									header : '金额',
-									dataIndex : 'roleName',
+									header : '维修部门',
+									dataIndex : 'maintain_department_name',
 									sortable : true
 								}, {
-									header : '入库时间',
-									dataIndex : 'regitime',
+									header : '维修人员',
+									dataIndex : 'maintain_personnel_name',
 									sortable : true
 								}, {
-									header : '供应商',
-									dataIndex : 'loginTime',
+									header : '检查项目',
+									dataIndex : 'check_item',
 									sortable : true
 								}, {
-									header : '供货方式',
-									dataIndex : 'supplyMode',
+									header : '故障原因',
+									dataIndex : 'failure_cause',
+									sortable : true
+								}, {
+									header : '更换配件',
+									dataIndex : 'accessory',
+									sortable : true
+								}, {
+									header : '维修日期',
+									dataIndex : 'maintain_data',
+									sortable : true
+								}, {
+									header : '完成情况',
+									dataIndex : 'complete_status',
+									sortable : true
+								}, {
+									header : '反馈评价',
+									dataIndex : 'feedback_appraisement',
+									sortable : true
+								}, {
+									header : '部门负责人',
+									dataIndex : 'maintain_department_leader',
 									sortable : true
 								}],
 						dockedItems : [{

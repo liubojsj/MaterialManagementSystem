@@ -1,44 +1,17 @@
-{ 
-text: '.',
-children: [{
-    text:'权利分工',
-    expanded: false,
-    children:[{
-        text:'受控事项',
-        id:'queryuser', 
-        href:'javascript:menuLink(\'受控事项\',\'accountlist.jsp\',\'queryuser\')',
-        leaf:true
-    },{
-        text:'科目添加',
-        id:'adduser',
-         href:'javascript:menuLink(\'科目添加\',\'addaccount.jsp\',\'adduser\')',
-        leaf:true
-    }]
+
+{children:[{
+    text:'受控事项',
+    id:'control_item', 
+    href:'javascript:openTab(\'control_item.jsp\',\'control_item\')',
+    leaf:true
 },{
-    text:'事项管理',
-    children:[{
-        text:'运作公示',
-        id:'queryrole',
-        href:'javascript:menuLink(\'运作公示\',\'list.jsp\',\'queryrole\')',
-        leaf:true
-    },{
-        text:'物品添加',
-        id:'addrole',
-        href:'javascript:menuLink(\'物品添加\',\'addmaterials.jsp\',\'addrole\')',
-        leaf:true
-    }]
+    text:'运作公示',
+    id:'wee_maintain', 
+    href:'javascript:menuLink(\'零小维修\',\'wee_maintain.jsp\',\'wee_maintain\')',
+    leaf:true
 },{
     text:'评价监督',
-    children:[{
-        text:'公示评价',
-        id:'querymenu',
-        href:'javascript:menuLink(\'公示评价\',\'appraiselist.jsp\',\'querymenu\')',
-        leaf:true
-    },{
-        text:'评价留言',
-        id:'addmenu',
-        href:'javascript:menuLink(\'评价留言\',\'addappraise.jsp\',\'addmenu\')',
-        leaf:true
-    }]
-}]
-}
+    id:'queryrole',
+    href:'javascript:menuLink(\'运作公示\',\'list.jsp\',\'queryrole\')',
+    leaf:true
+}]}

@@ -1,21 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" 
-	xmlns="http://java.sun.com/xml/ns/javaee" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>TestServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.TestServlet</servlet-class>
+	</servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>AccordionServlet</servlet-name>
-    <servlet-class>Servlet.AccordionServlet</servlet-class>
+    <servlet-name>DepartmentServlet</servlet-name>
+    <servlet-class>lb.mms.servlet.DepartmentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ControlItemServlet</servlet-name>
+    <servlet-class>lb.mms.servlet.ControlItemServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>config web app for mms project</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ConfigServlet</servlet-name>
+    <servlet-class>lb.mms.servlet.ConfigServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
 
+
+
+
+	<servlet-mapping>
+		<servlet-name>TestServlet</servlet-name>
+		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AccordionServlet</servlet-name>
-    <url-pattern>/servlet/AccordionServlet</url-pattern>
+    <servlet-name>DepartmentServlet</servlet-name>
+    <url-pattern>/DepartmentServlet</url-pattern>
   </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
+  <servlet-mapping>
+    <servlet-name>ControlItemServlet</servlet-name>
+    <url-pattern>/ControlItemServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ConfigServlet</servlet-name>
+    <url-pattern>/ConfigServlet</url-pattern>
+  </servlet-mapping>
+	<!-- <filter>
+		<filter-name>FormFilter</filter-name>
+		<filter-class>lb.mms.filter.FormFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>FormFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>
