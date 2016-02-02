@@ -4,6 +4,7 @@ public class ControlItem {
     private int control_item_id;
     private String control_item_name;
     private int department_id;
+    private String department_name ;
     private String cont_feature;
     private int plan_cost ; 
     private int dynamic_expend;
@@ -73,6 +74,28 @@ public class ControlItem {
      */
     public int getDepartment_id() {
 	return department_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2015-12-19 : 下午12:10:03</li>
+     * <li>3、方法含义：为字段“department_name”设置值</li>
+     * </ul>
+     * @param 参数“department_name”的值将赋给字段“department_name”
+     */
+    public void setDepartment_name(String department_name) {
+	this.department_name = department_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2015-12-19 : 下午12:10:03</li>
+     * <li>3、方法含义：返回字段“department_name”的值</li>
+     * </ul>
+     * @return 返回字段“department_name”的值
+     */
+    public String getDepartment_name() {
+	return department_name;
     }
     /**
      * <ul>

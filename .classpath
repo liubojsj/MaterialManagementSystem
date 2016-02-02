@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="D:/Java/lib/commons.collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="D:/Java/lib/commons-beanutils-core-1.8.0.jar"/>
 	<classpathentry kind="lib" path="D:/Java/lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="D:/Java/lib/commons-fileupload-1.3.1.jar" sourcepath="D:/Java/lib/commons-fileupload-1.3.1-src.zip"/>
+	<classpathentry kind="lib" path="D:/Java/lib/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

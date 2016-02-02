@@ -56,12 +56,39 @@ public class DepartmentDAOImpl implements DepartmentDAO
 
     public Department findDepartmentById(int departmentId) throws Exception
     {
-        Department dept = null;
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+	
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Department department = null;
+		try {
+			conn = DBConfig.getConnection();
+			ps = conn.prepareStatement("select * from department_tb where department_id=?");
+			ps.setInt(1, departmentId);
+			rs = ps.executeQuery();
+			 while (rs.next())
+		            {
+			department = new Department();
+			department.setDepartment_id(rs.getInt("department_id"));
+			department.setDepartment_name(rs.getString("department_name"));
+			department.setRoot_department(rs.getBoolean("root_department"));
+			department.setLeaf_department(rs.getBoolean("leaf_department"));
+			department.setDepartment_name_abbreviation(rs.getString("department_name_abbreviation"));
 
-        return null;
+		            }
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return department;
     }
 
 }

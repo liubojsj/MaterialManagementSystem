@@ -32,6 +32,7 @@ public class ControlItemImpl implements ControlItemDAO {
 		control.setControl_item_id(rs.getInt("control_item_id"));
 		control.setControl_item_name(rs.getString("control_item_name"));
 		control.setDepartment_id(rs.getInt("department_id"));
+		control.setDepartment_name(rs.getString("department_name"));
 		control.setCont_feature(rs.getString("cont_feature"));
 		control.setPlan_cost(rs.getInt("plan_cost"));
 		control.setDynamic_expend(rs.getInt("dynamic_expend"));
@@ -89,6 +90,7 @@ public class ControlItemImpl implements ControlItemDAO {
 		control.setControl_item_id(rs.getInt("control_item_id"));
 		control.setControl_item_name(rs.getString("control_item_name"));
 		control.setDepartment_id(rs.getInt("department_id"));
+		control.setDepartment_name(rs.getString("department_name"));
 		control.setCont_feature(rs.getString("cont_feature"));
 		control.setPlan_cost(rs.getInt("plan_cost"));
 		control.setDynamic_expend(rs.getInt("dynamic_expend"));
@@ -131,13 +133,14 @@ public boolean insertControlItem(ControlItem ci) throws Exception {
 	Connection conn = DBConfig.getConnection();;
 	PreparedStatement ps = null;
 	
-	ps = conn.prepareStatement("insert into control_item_tb(control_item_name,department_id,cont_feature,plan_cost,dynamic_expend,cutting_down_expenditures_sum) values(?,?,?,?,?,?)");
+	ps = conn.prepareStatement("insert into control_item_tb(control_item_name,department_id,department_name,cont_feature,plan_cost,dynamic_expend,cutting_down_expenditures_sum) values(?,?,?,?,?,?,?)");
 	ps.setString(1, ci.getControl_item_name());
 	ps.setInt(2,ci.getDepartment_id());
-	ps.setString(3, ci.getCont_feature());
-	ps.setInt(4, ci.getPlan_cost());
-	ps.setInt(5, ci.getDynamic_expend());
-	ps.setInt(6, ci.getCutting_down_expenditures_sum());
+	ps.setString(3, ci.getDepartment_name());
+	ps.setString(4, ci.getCont_feature());
+	ps.setInt(5, ci.getPlan_cost());
+	ps.setInt(6, ci.getDynamic_expend());
+	ps.setInt(7, ci.getCutting_down_expenditures_sum());
 	ps.executeUpdate();
 
 
@@ -154,7 +157,22 @@ public boolean deleteControlItem(int control_item_id) throws Exception {
     return true;
 }
 
-
+public boolean updateControlItem(ControlItem ci) throws Exception {
+	Connection conn = DBConnection.getConnection();
+	PreparedStatement ps = conn.prepareStatement("update control_item_tb set control_item_name = ?,department_id= ?,department_name=?,cont_feature= ?,plan_cost= ?,dynamic_expend= ?,cutting_down_expenditures_sum= ? where control_item_id =? ");
+	ps.setString(1, ci.getControl_item_name());
+	ps.setInt(2,ci.getDepartment_id());
+	ps.setString(3, ci.getDepartment_name());
+	ps.setString(4, ci.getCont_feature());
+	ps.setInt(5, ci.getPlan_cost());
+	ps.setInt(6, ci.getDynamic_expend());
+	ps.setInt(7, ci.getCutting_down_expenditures_sum());
+	ps.setInt(8, ci.getControl_item_id());
+	ps.executeUpdate();
+	System.out.println("修改成功");
+	DBConnection.close(ps, conn);
+	return true ;
+}
 
 
 

@@ -137,6 +137,50 @@ Ext.onReady(function() {
 											}
 										});
 							}
+						}, '->', {
+							xtype : 'button',
+							text : '新增',
+							id : 'btnAdd',
+							hidden : !userRole ,
+							handler : function() {
+								controlItemFormPanel.getForm().reset();
+								formAction = 'add';
+								formWindow.setTitle('新增受控事项');
+								formWindow.show();
+							}
+
+						}, '-', {
+							xtype : 'button',
+							text : '修改',
+							id : 'btnUpdate',
+							hidden : !userRole ,
+							listeners : {
+								"click" : function(btn) {
+									var data = grid.getSelectionModel();
+									if (!data.hasSelection()) {
+										Ext.MessageBox.alert("提示",
+												"请先选择您要操作的行!");
+										return;
+									} else {
+										// costExpendFormPanel.getForm().reset()
+										formAction = 'update';
+										formWindow.setTitle('修改公示项目')
+										formWindow.show();
+										// updateGrid();
+									}
+								}
+							}
+						}, '-', {
+							xtype : 'button',
+							text : '删除',
+							id : 'btnDelet',
+							hidden : !userRole ,
+							listeners : {
+								"click" : function(btn) {
+
+									delGrid();
+								}
+							}
 						}],
 				columns : [{
 							xtype : "rownumberer",

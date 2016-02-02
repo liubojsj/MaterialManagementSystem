@@ -7,6 +7,7 @@
 			+ path + "/";
 	ServletContext context = request.getSession().getServletContext();
 	String departmentJson =(String)context.getAttribute("departmentJson");
+	String costExpenID = request.getParameter("costExpenID");
 	User user = (User)request.getSession().getAttribute("user") ;
 	boolean userRole = false ;
 	if(user!=null){
@@ -18,7 +19,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>唐山站"成本大项"监管运用平台</title>
+		<title>My JSP 'index.jsp' starting page</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
@@ -37,11 +38,14 @@
 		<!-- 引用中文环境文件 -->
 		<script type="text/javascript" src="ExtJS4.2.1/locale/ext-lang-zh_CN.js"></script>
 		<script type="text/javascript">
+			var costExpenID='<%=costExpenID%>'
 			var webPath = '<%=path%>';
+			var departmentJson = '<%=departmentJson%>';
+			var tabid = '<%=request.getSession().getAttribute("tabid")%>';
 			var userRole = <%=userRole%> ;
 		</script>
 		<!-- 引用index.jsp 对应的index.js -->
-		<script type="text/javascript" src="./js/index.js"></script>
+		<script type="text/javascript" src="./js/message_board.js"></script>
 	</head>
 	<body>
 

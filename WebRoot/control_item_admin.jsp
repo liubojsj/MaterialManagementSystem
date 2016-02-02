@@ -34,7 +34,7 @@
 		<script type="text/javascript"
 			src="ExtJS4.2.1/locale/ext-lang-zh_CN.js"></script>
 
-		<script type="text/javascript" src="./js/control_item.js"></script>
+		<script type="text/javascript" src="./js/control_item_admin.js"></script>
 	</head>
 	<body>
 

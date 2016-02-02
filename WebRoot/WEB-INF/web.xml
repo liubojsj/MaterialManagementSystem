@@ -7,49 +7,96 @@
 	<servlet>
 		<description>This is the description of my J2EE component</description>
 		<display-name>This is the display name of my J2EE component</display-name>
-		<servlet-name>TestServlet</servlet-name>
-		<servlet-class>lb.mms.servlet.TestServlet</servlet-class>
+		<servlet-name>ActionServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.ActionServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>DepartmentServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.DepartmentServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>ControlItemServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.ControlItemServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>config web app for mms project</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>ConfigServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.ConfigServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>CostExpendServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.CostExpendServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>MessageBoardServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.MessageBoardServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>ConstructionRepairServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.ConstructionRepairServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>ProductServlet</servlet-name>
+		<servlet-class>lb.mms.servlet.ProductServlet</servlet-class>
 	</servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>DepartmentServlet</servlet-name>
-    <servlet-class>lb.mms.servlet.DepartmentServlet</servlet-class>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>lb.mms.servlet.UploadServlet</servlet-class>
   </servlet>
-  <servlet>
-    <description>This is the description of my J2EE component</description>
-    <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>ControlItemServlet</servlet-name>
-    <servlet-class>lb.mms.servlet.ControlItemServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <description>config web app for mms project</description>
-    <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>ConfigServlet</servlet-name>
-    <servlet-class>lb.mms.servlet.ConfigServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-
-
 
 	<servlet-mapping>
-		<servlet-name>TestServlet</servlet-name>
-		<url-pattern>/test</url-pattern>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/ActionServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DepartmentServlet</servlet-name>
+		<url-pattern>/DepartmentServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ControlItemServlet</servlet-name>
+		<url-pattern>/ControlItemServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ConfigServlet</servlet-name>
+		<url-pattern>/ConfigServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CostExpendServlet</servlet-name>
+		<url-pattern>/CostExpendServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MessageBoardServlet</servlet-name>
+		<url-pattern>/MessageBoardServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ConstructionRepairServlet</servlet-name>
+		<url-pattern>/ConstructionRepairServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProductServlet</servlet-name>
+		<url-pattern>/ProductServlet</url-pattern>
 	</servlet-mapping>
   <servlet-mapping>
-    <servlet-name>DepartmentServlet</servlet-name>
-    <url-pattern>/DepartmentServlet</url-pattern>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/UploadServlet</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ControlItemServlet</servlet-name>
-    <url-pattern>/ControlItemServlet</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ConfigServlet</servlet-name>
-    <url-pattern>/ConfigServlet</url-pattern>
-  </servlet-mapping>
-	<!-- <filter>
+	<filter>
 		<filter-name>FormFilter</filter-name>
 		<filter-class>lb.mms.filter.FormFilter</filter-class>
 		<init-param>
@@ -61,7 +108,7 @@
 		<filter-name>FormFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	 -->
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

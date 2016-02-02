@@ -40,18 +40,18 @@ public class ConfigServlet extends HttpServlet {
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html;charset=utf-8");
-	response.setCharacterEncoding("UTF-8");
-	PrintWriter out = response.getWriter();
-	//Object tab = new String(request.getParameter("tab").getBytes("ISO8859_1"), "UTF-8");
-	ServletContext context = this.getServletConfig().getServletContext();
-	String departmentJson =(String) context.getAttribute("departmentJson");
-
-	out.print(departmentJson);
-
-	out.flush();
-	out.close();
+//	request.setCharacterEncoding("UTF-8");
+//	response.setContentType("text/html;charset=utf-8");
+//	response.setCharacterEncoding("UTF-8");
+//	PrintWriter out = response.getWriter();
+//	//Object tab = new String(request.getParameter("tab").getBytes("ISO8859_1"), "UTF-8");
+//	ServletContext context = this.getServletConfig().getServletContext();
+//	String departmentJson =(String) context.getAttribute("departmentJson");
+//
+//	out.print(departmentJson);
+//
+//	out.flush();
+//	out.close();
     }
 
     /**
@@ -102,6 +102,7 @@ public class ConfigServlet extends HttpServlet {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        //将Department类取出转换为JSON字符串
         departmentJson = JSONArray.fromObject(deplist).toString();
 	ServletContext context = this.getServletConfig().getServletContext();
 	context.setAttribute("departmentJson", departmentJson) ;

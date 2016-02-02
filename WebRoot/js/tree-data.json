@@ -6,12 +6,12 @@
     leaf:true
 },{
     text:'运作公示',
-    id:'wee_maintain', 
-    href:'javascript:menuLink(\'零小维修\',\'wee_maintain.jsp\',\'wee_maintain\')',
+    id:'cost_expend', 
+    href:'javascript:openTab(\'cost_expend.jsp\',\'cost_expend\')',
     leaf:true
 },{
     text:'评价监督',
     id:'queryrole',
-    href:'javascript:menuLink(\'运作公示\',\'list.jsp\',\'queryrole\')',
+    href:'javascript:openTab(\'evaluation_supervision.jsp\',\'evaluation_supervision\')',
     leaf:true
 }]}
