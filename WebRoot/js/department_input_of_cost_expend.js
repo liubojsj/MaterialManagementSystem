@@ -116,7 +116,22 @@ Ext.onReady(function() {
 	 */
 	var departmentStore = Ext.create('Ext.data.Store', {
 				model : 'Department',
-				data : Ext.decode(departmentJson)
+				proxy : {
+
+					type : 'ajax',
+					url : './DepartmentServlet',
+					extraParams : {
+						"action" : "getAll"
+					},
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						root : 'date'
+					}
+				},
+				autoLoad : true
 			})
 	/*
 	 * ==================定义供应商选择模式==================

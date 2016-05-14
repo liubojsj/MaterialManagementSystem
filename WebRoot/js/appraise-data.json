@@ -1,6 +1,0 @@
-
-{accountCount:[10],accountList:[
-{serialNumber:'1',accountNumber:'卫生纸',accountName:'办公室',usedepartment:'房建车间',classificationName:'纸太薄',registerTime:'2014-07-01'},
-{serialNumber:'2',accountNumber:'圆珠笔',accountName:'办公室',usedepartment:'客运车间',classificationName:'书写流畅',registerTime:'2014-07-01'},
-{serialNumber:'3',accountNumber:'扫帚',accountName:'办公室',usedepartment:'信息车间',classificationName:'还行',registerTime:'2014-07-01'}
-]}

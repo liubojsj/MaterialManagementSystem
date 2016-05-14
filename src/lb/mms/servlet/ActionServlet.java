@@ -79,7 +79,7 @@ public class ActionServlet extends HttpServlet {
 	    boolean flag = dao.login(username, password);
 	    session.setAttribute("user", user);
 	    if (flag) {
-		out.print("{success:true,msg:'登录成功'}");
+		out.print("{success:true,msg:'登录成功',username:'"+ user.getName()+ "'}");
 	    } else {
 		out.print("{success:false,msg:'登录失败'}");
 	    }

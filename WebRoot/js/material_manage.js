@@ -3,6 +3,7 @@ var dateViewWindow;
 var imageTpl;
 Ext.onReady(function() {
 	var formAction = '';
+	console.log(department_id);
 
 	/**
 	 * ********************定义Modle数据类型 ********************
@@ -17,8 +18,8 @@ Ext.onReady(function() {
 					name : 'product_id',
 					type : 'int'
 				}, {
-					name : 'control_item_id',
-					type : 'int'
+					name : 'control_item_name',
+					type : 'String'
 				}, {
 					name : 'product_name',
 					type : 'string'
@@ -66,6 +67,45 @@ Ext.onReady(function() {
 							type : 'int'
 						}]
 			});
+	/*
+	 * ===============结束定义部门Department模型===============
+	 */
+
+	/*
+	 * ===============定义受控事项模型===============
+	 */
+	Ext.define('Control_item', {
+		extend : 'Ext.data.Model',
+		fields : [{
+					name : 'control_item_id',
+					type : 'int'
+				}, {
+					name : 'control_item_name',
+					type : 'string'
+				}, {
+					name : 'department_id',
+					type : 'int'
+				}, {
+					name : 'department_name',
+					type : 'String'
+				}, {
+					name : 'cont_feature',
+					type : 'string'
+				}, {
+					name : 'plan_cost',
+					type : 'int'
+				}, {
+					name : 'dynamic_expend',
+					type : 'int'
+				}, {
+					name : 'cutting_down_expenditures_sum',
+					type : 'int'
+				}]
+			// idProperty : 'control_item_id'
+		});
+	/*
+	 * ===============定义图例模型===============
+	 */
 	Ext.define('Image', {
 				extend : 'Ext.data.Model',
 				fields : [{
@@ -77,6 +117,18 @@ Ext.onReady(function() {
 						}]
 			});
 
+	imageTpl = new Ext.XTemplate('<tpl for=".">',
+			'<div style="margin-bottom: 10px;" class="thumb-wrap">',
+			'<img src="{src}" />', '<br/><span>{caption}</span>', '</div>',
+			'</tpl>');
+
+	/**
+	 * ********************定义Stroe数据类型 ********************
+	 */
+
+	/*
+	 * 定义图例数据类型
+	 */
 	var imagesStore = Ext.create('Ext.data.Store', {
 				model : 'Image',
 				data : [{
@@ -84,18 +136,6 @@ Ext.onReady(function() {
 							caption : ''
 						}]
 			});
-
-	imageTpl = new Ext.XTemplate('<tpl for=".">',
-			'<div style="margin-bottom: 10px;" class="thumb-wrap">',
-			'<img src="{src}" />', '<br/><span>{caption}</span>', '</div>',
-			'</tpl>');
-	/*
-	 * ===============结束定义部门Department模型===============
-	 */
-
-	/**
-	 * ********************定义Stroe数据类型 ********************
-	 */
 	/*
 	 * 定义costExpendStore数据类型
 	 */
@@ -109,7 +149,7 @@ Ext.onReady(function() {
 						read : 'POST'
 					},
 					extraParams : {
-						action : "list"
+						action : "getAll" 
 					},
 					reader : {
 						type : 'json',
@@ -141,31 +181,33 @@ Ext.onReady(function() {
 				autoLoad : true
 			})
 	/*
-	 * ==================定义供应商选择模式==================
+	 * 定义ControlItemStore数据类型
 	 */
-	var providerdStore = Ext.create('Ext.data.Store', {
-				fields : ['chooseId', 'chooseName'],
-				data : [{
-							"chooseId" : "0",
-							"chooseName" : "多家竞价"
-						}, {
-							"chooseId" : "1",
-							"chooseName" : "询价比价"
-						}, {
-							"chooseId" : "2",
-							"chooseName" : "战略合作"
-						}]
+	var controlItemStore = Ext.create('Ext.data.Store', {
+				model : 'Control_item',
+				// pageSize : 10,
+				proxy : {
+					type : 'ajax',
+					url : './ControlItemServlet',
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						totalProperty : 'accountCount',
+						root : 'accountList'
+					}
+				},
+				autoLoad : false
 			});
-	/*
-	 * ======================结束定义=========================
-	 */
 	/**
 	 * ********************结束Stroe定义********************
 	 */
 	productStore.on('beforeload', function(productStore, options) {
 				var keyWord = Ext.getCmp('KeyWord').getValue();
 				var new_params = {
-					searchText : keyWord
+					searchText : keyWord,
+					department_id:department_id
 
 				};
 				Ext.apply(productStore.proxy.extraParams, new_params);
@@ -261,11 +303,11 @@ Ext.onReady(function() {
 							hidden : true
 						}, {
 							header : '所属事项',
-							dataIndex : 'control_item_id',
+							dataIndex : 'control_item_name',
 							sortable : true,
 							hidden : false
 						}, {
-							header : '名称',
+							header : '品牌名称',
 							dataIndex : 'product_name',
 							sortable : true,
 							hidden : false
@@ -335,8 +377,7 @@ Ext.onReady(function() {
 				if (button == "yes") {
 					var ids = [];
 					Ext.Array.each(data, function(record) {
-								var product_id = record
-										.get('product_id');
+								var product_id = record.get('product_id');
 								// 如果删除的是幻影数据，则id就不传递到后台了，直接在前台删除即可
 								if (product_id) {
 									ids.push(product_id);
@@ -386,7 +427,7 @@ Ext.onReady(function() {
 				defaultType : "textfield",
 				items : [{
 					xtype : 'filefield',
-					
+
 					emptyText : '请选择图片...',
 					fieldLabel : '产品图片',
 					name : 'file',
@@ -405,13 +446,19 @@ Ext.onReady(function() {
 											url : "./UploadServlet",
 											method : "POST",
 											success : function(form, action) {
-												productFormPanel.getForm().findField("product_img").setValue(action.result.data);
-												form.findField("file").setRawValue("已上传");
-												Ext.Msg.alert('成功',action.result.msg);
-												
+												productFormPanel
+														.getForm()
+														.findField("product_img")
+														.setValue(action.result.data);
+												form.findField("file")
+														.setRawValue("已上传");
+												Ext.Msg.alert('成功',
+														action.result.msg);
+
 											},
 											failure : function(form, action) {
-												Ext.Msg.alert('失败',action.result.msg);
+												Ext.Msg.alert('失败',
+														action.result.msg);
 											}
 										});
 
@@ -423,128 +470,162 @@ Ext.onReady(function() {
 			})
 
 	var productFormPanel = Ext.create("Ext.form.Panel", {
-		autoHeight : true,
-		width : '100%',
-		bodyPadding : 10,
-		border : false,
-		defaults : {
-			anchor : '100%',
-			labelWidth : 100
-		},
-		items : [{
-					xtype : "numberfield",
-					name : "product_id",
-					fieldLabel : "编号",
-					hidden : true
-				}, {
-					xtype : "textfield",
-					name : "product_name",
-					fieldLabel : "名称"
-				}, {
-					xtype : "textfield",
-					name : "specification",
-					fieldLabel : "规格"
-				}, {
-					xtype : "textfield",
-					name : "unit",
-					fieldLabel : "单位"
-				}, {
-					xtype : "textfield",
-					name : "use_restriction",
-					fieldLabel : "应用限制"
-				}, {
-					xtype : "textfield",
-					name : "manufacturer",
-					fieldLabel : "制造商"
-				}, fileUploadFormPanel, {
-					xtype : 'combobox',
-					fieldLabel : '责任科室',
-					name : 'department_name',
-					store : departmentStore,
-					valueField : 'department_namne',
-					displayField : 'department_name',
-					typeAhead : true,
-					queryMode : 'local',
-					emptyText : '请选择部门...',
-					allowBlank : false, // 是否允许空
-					blankText : '不能为空，请选择有效信息',// 错误提示信息
-					msgTarget : 'qtip', // 在该组件的下面显示错误提示信息
-					listeners : {
-						select : function(combo, record, index) {
-							var form = this.up('form').getForm();
-							form.findField('department_id').setValue(record[0]
-									.get('department_id'));
-							form.findField('department_name')
-									.setValue(record[0].get('department_name'));
-							// alert(form.findField('department_name').getValue());
-						}
-					}
-				}, {
-					xtype : 'combobox',
-					fieldLabel : '受控事项名称',
-					name : 'control_item_id',
-					store : providerdStore,
-					valueField : 'chooseName', // 需要提交的值
-					displayField : 'chooseName', // 显示的值
-					typeAhead : true,
-					queryMode : 'local',
-					emptyText : '请选择...',
-					allowBlank : false,// 是否允许空
-					blankText : '不能为空，请选择有效信息',// 错误提示信息
-					msgTarget : 'qtip',// 在该组件的下面显示错误提示信息
-					selectOnFocus : true
+				autoHeight : true,
+				width : '100%',
+				bodyPadding : 10,
+				border : false,
+				defaults : {
+					anchor : '100%',
+					labelWidth : 100
+				},
+				items : [{
+							xtype : "numberfield",
+							name : "product_id",
+							fieldLabel : "编号",
+							hidden : true
+						}, {
+							xtype : "textfield",
+							name : "product_name",
+							fieldLabel : "名称"
+						}, {
+							xtype : "textfield",
+							name : "specification",
+							fieldLabel : "规格"
+						}, {
+							xtype : "textfield",
+							name : "unit",
+							fieldLabel : "单位"
+						}, {
+							xtype : "textfield",
+							name : "use_restriction",
+							fieldLabel : "应用限制"
+						}, {
+							xtype : "textfield",
+							name : "manufacturer",
+							fieldLabel : "制造商"
+						}, fileUploadFormPanel, {
+							xtype : 'combobox',
+							fieldLabel : '责任科室',
+							name : 'department_id',
+							store : departmentStore,
+							valueField : 'department_id',
+							displayField : 'department_name',
+							typeAhead : true,
+							queryMode : 'local',
+							emptyText : '请选择部门...',
+							allowBlank : false, // 是否允许空
+							blankText : '不能为空，请选择有效信息',// 错误提示信息
+							msgTarget : 'qtip', // 在该组件的下面显示错误提示信息
+							listeners : {
+								select : function(combo, record, index) {
+									var form = this.up('form').getForm();
+									form.findField('department_name')
+											.setValue(record[0]
+													.get('department_name'));
+									// form.findField('department_name')
+									// .setValue(record[0].get('department_name'));
+									var conitem = Ext.getCmp('control_item_id');
+									conitem.clearValue();
+									conitem.store.load({
+												params : {
+													action : 'list',
+													department_id : combo
+															.getValue()
 
-				}, {
-					xtype : "hiddenfield",
-					name : "department_id"
-					//隐藏域传参数
-				}, {
-					xtype : "hiddenfield",
-					name : "product_img" 
-					//隐藏域传参数
-				}],
-		buttons : [{
-					text : '重置',
-					handler : function() {
-						this.up('form').getForm().reset();
-					}
-				}, {
-					text : '提交',
-					formBind : true, // only enabled once the form is valid
-					disabled : true,
-					handler : function() {
-						var form = productFormPanel.getForm();
-						if (form.isValid()) {
-							Ext.Ajax.request({
-								params : {
-									'formJson' : Ext.JSON.encode(form
-											.getValues()),
-									'action' : formAction
-								},
-								waitTitle : '请稍后',
-								waitMsg : '正在提交中...',
-								timeout : 2000,
-								url : "./ProductServlet",
-								method : "POST",
-								success : function(response,config) {
-//									alert(config.url+","+config.method);  
-									Ext.Msg.alert("提示",response.responseText);
-									grid.getStore().reload();
-									form.reset();
-								},
-								failure : function(form, action) {
-									Ext.Msg.alert("提示",response.responseText);
+												}
+											});
 								}
-							});
+							}
+						}, {
+							xtype : 'combobox',
+							fieldLabel : '受控事项名称',
+							id : 'control_item_id',
+							name : 'control_item_id',
+							store : controlItemStore,
+							valueField : 'control_item_id', // 需要提交的值
+							displayField : 'control_item_name', // 显示的值
+							typeAhead : true,
+							queryMode : 'local',
+							emptyText : '请选择...',
+							allowBlank : false,// 是否允许空
+							blankText : '不能为空，请选择有效信息',// 错误提示信息
+							msgTarget : 'qtip',// 在该组件的下面显示错误提示信息
+							selectOnFocus : true,
+							listeners : {
+								select : function(combo, record, index) {
+									var form = this.up('form').getForm();
+									form.findField('control_item_name')
+											.setValue(record[0]
+													.get('control_item_name'));
+								
+											
+								}
+							}
 
-						}
+						}, {
+							xtype : "hiddenfield",
+							name : "department_name"
+							// 隐藏域传参数
+					}	, {
+							xtype : "hiddenfield",
+							name : "product_img"
+							// 隐藏域传参数
+					}	, {
+							xtype : "hiddenfield",
+							name : "control_item_name"
+							// 隐藏域传参数
+					}],
+				buttons : [{
+							text : '重置',
+							handler : function() {
+								this.up('form').getForm().reset();
+							}
+						}, {
+							text : '提交',
+							formBind : true, // only enabled once the form is
+							// valid
+							disabled : true,
+							handler : function() {
+								var form = productFormPanel.getForm();
+								if (form.isValid()) {
+									Ext.Ajax.request({
+												params : {
+													'formJson' : Ext.JSON
+															.encode(form
+																	.getValues()),
+													'action' : formAction
+												},
+												waitTitle : '请稍后',
+												waitMsg : '正在提交中...',
+												timeout : 2000,
+												url : "./ProductServlet",
+												method : "POST",
+												success : function(response,
+														config) {
+													// alert(config.url+","+config.method);
+													Ext.Msg
+															.alert(
+																	"提示",
+																	response.responseText);
+													grid.getStore().reload();
+													form.reset();
+												},
+												failure : function(form, action) {
+													Ext.Msg
+															.alert(
+																	"提示",
+																	response.responseText);
+												}
+											});
 
-						formWindow.close();
-					}
+								}
 
-				}]
+								formWindow.close();
+							}
 
-	});
+						}]
+
+			});
 	var dataViewFormPanel = Ext.create("Ext.form.Panel", {
 				autoHeight : true,
 				width : '100%',

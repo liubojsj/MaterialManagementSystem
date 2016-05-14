@@ -4,8 +4,12 @@ package lb.mms.entity;
 public class CostExpend {
     private int cost_expend_id ;
     private String cost_expend_name;
+    private int product_id ;
+    private String product_name ;
     private int department_id;
     private String department_name ;
+    private int control_item_id ;
+    private String control_item_name ;
     private String specification ;
     private int price ;
     private int count ;
@@ -62,6 +66,50 @@ public class CostExpend {
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午03:56:35</li>
+     * <li>3、方法含义：为字段“product_id”设置值</li>
+     * </ul>
+     * @param 参数“product_id”的值将赋给字段“product_id”
+     */
+    public void setProduct_id(int product_id) {
+	this.product_id = product_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午03:56:35</li>
+     * <li>3、方法含义：返回字段“product_id”的值</li>
+     * </ul>
+     * @return 返回字段“product_id”的值
+     */
+    public int getProduct_id() {
+	return product_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午03:56:43</li>
+     * <li>3、方法含义：为字段“product_name”设置值</li>
+     * </ul>
+     * @param 参数“product_name”的值将赋给字段“product_name”
+     */
+    public void setProduct_name(String product_name) {
+	this.product_name = product_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午03:56:43</li>
+     * <li>3、方法含义：返回字段“product_name”的值</li>
+     * </ul>
+     * @return 返回字段“product_name”的值
+     */
+    public String getProduct_name() {
+	return product_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
      * <li>2、编写日期：2015-12-22 : 下午03:05:49</li>
      * <li>3、方法含义：为字段“department_id”设置值</li>
      * </ul>
@@ -102,6 +150,50 @@ public class CostExpend {
      */
     public String getDepartment_name() {
 	return department_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-14 : 下午03:27:34</li>
+     * <li>3、方法含义：为字段“control_item_id”设置值</li>
+     * </ul>
+     * @param 参数“control_item_id”的值将赋给字段“control_item_id”
+     */
+    public void setControl_item_id(int control_item_id) {
+	this.control_item_id = control_item_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-14 : 下午03:27:34</li>
+     * <li>3、方法含义：返回字段“control_item_id”的值</li>
+     * </ul>
+     * @return 返回字段“control_item_id”的值
+     */
+    public int getControl_item_id() {
+	return control_item_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-14 : 下午03:27:44</li>
+     * <li>3、方法含义：为字段“control_item_nameString”设置值</li>
+     * </ul>
+     * @param 参数“control_item_nameString”的值将赋给字段“control_item_nameString”
+     */
+    public void setControl_item_name(String control_item_name) {
+	this.control_item_name = control_item_name ;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-14 : 下午03:27:44</li>
+     * <li>3、方法含义：返回字段“control_item_nameString”的值</li>
+     * </ul>
+     * @return 返回字段“control_item_nameString”的值
+     */
+    public String getControl_item_name() {
+	return control_item_name;
     }
     /**
      * <ul>

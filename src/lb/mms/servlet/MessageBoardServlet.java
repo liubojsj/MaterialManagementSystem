@@ -3,9 +3,9 @@ package lb.mms.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lb.mms.dao.impl.ControlItemImpl;
-import lb.mms.dao.impl.MessageBoardDAOImpl;
+import lb.mms.dao.MessageBoardDAO;
 import lb.mms.entity.MessageBoard;
+import lb.mms.util.Factory;
 import net.sf.json.JSONObject;
 
 public class MessageBoardServlet extends HttpServlet {
@@ -37,125 +37,107 @@ public class MessageBoardServlet extends HttpServlet {
 	PrintWriter out = response.getWriter();
 	// 设置请求字符集,以便从请求读取中文
 	request.setCharacterEncoding("utf-8");
-	// 获取请求路径
-	// String uri = request.getRequestURI();
 	// 获取请求行为
 	String action = request.getParameter("action");
 	// 获取模糊查询关键字
 	String searchText = request.getParameter("searchText");
-	// 获取查询ID
-	String costExpenID = request.getParameter("costExpenID");
+
 	// 设置标志位
 	boolean flag = false;
+	int start = new Integer(request.getParameter("start") != null ? request
+		.getParameter("start") : "-1");
+	int limit = new Integer(request.getParameter("limit") != null ? request
+		.getParameter("limit") : "-1");
+	int cost_expen_id = new Integer(request.getParameter("cost_expen_id") != null ? request
+		.getParameter("cost_expen_id") : "-1");
+	int construction_repair_id = new Integer(request.getParameter("construction_repair_id") != null ? request
+		.getParameter("construction_repair_id") : "-1");
+	// 获取总记录数
+	int count = 0;
+	// 准备页面JSON
 	Map<String, Object> map = new HashMap<String, Object>();
-	if (action.equals("list")) {
-	    int start = Integer.parseInt(request.getParameter("start"));
-	    int limit = Integer.parseInt(request.getParameter("limit"));
-	    MessageBoardDAOImpl msgImpl = new MessageBoardDAOImpl();
-	    ArrayList<MessageBoard> msgList = null;
-	    int recordCount = 0;
+	List<MessageBoard> msglist = null;
+	JSONObject jsonObject = null;
+	MessageBoard msg = null ;
+	String formJson = request.getParameter("formJson");
+	// 页面操作逻辑判断
+	if ("list".equals(action)) {
+	    System.out.println(cost_expen_id) ;
+	    MessageBoardDAO dao = (MessageBoardDAO)Factory.getInstance("MessageBoardDAO") ;
 	    try {
-		recordCount = msgImpl.getCostExpendID(new Integer(costExpenID));
-		msgList = (ArrayList<MessageBoard>) msgImpl.findAllByID(1,
-			new Integer(costExpenID), start, limit);
+		// 获取查询数据列表
+		if (cost_expen_id==-1) {
+		    msglist = dao.findAllByID(2, construction_repair_id, start, limit) ;
+		}else {
+		    msglist = dao.findAllByID(1, cost_expen_id, start, limit) ;
+		}
+		
+		
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
-	    map.put("accountCount", recordCount);
-	    map.put("accountList", msgList);
-	    JSONObject jsonObject = JSONObject.fromObject(map);
-	    // System.out.print(jsonObject);
+	    map.put("count", count);
+	    map.put("list", msglist);
+	    jsonObject = JSONObject.fromObject(map);
 	    out.print(jsonObject);
-	} else if (action.equals("add")) {
-	    MessageBoardDAOImpl msgbrodimpl = new MessageBoardDAOImpl();
+	    out.flush();
+	    out.close();
+	} else if ("add".equals(action)) {
+	    jsonObject = JSONObject.fromObject(formJson);
+	    msg = (MessageBoard) JSONObject.toBean(jsonObject,
+		    MessageBoard.class);
+	    MessageBoardDAO dao = (MessageBoardDAO)Factory.getInstance("MessageBoardDAO") ;
 	    SimpleDateFormat dateformat = new SimpleDateFormat(
-		    "yyyy年MM月dd日 HH时mm分ss秒 E ");
-	    int cost_expend_id = new Integer(request
-		    .getParameter("costExpenID").toString());
-	    String user_connect = request.getParameter("price_hight") + "\n"
-		    + request.getParameter("specification_no_application")
-		    + "\n" + request.getParameter("quality_bad") + "\n"
-		    + request.getParameter("supplier_doubt");
-	    String provider_connect = request
-		    .getParameter("choose_my_supplier");
-	    String incorrupt_connect = "";
-	    String department_connect = "";
-	    String user_ip = request.getLocalName();
+		    "yyyy年MM月dd日 HH时mm分ss秒  ");
+//	   System.out.println(msg.getCost_expend_id()) ;
+//	    String user_connect = request.getParameter("price_hight") + "\n"
+//		    + request.getParameter("specification_no_application")
+//		    + "\n" + request.getParameter("quality_bad") + "\n"
+//		    + request.getParameter("supplier_doubt");
+//	    String provider_connect = request
+//		    .getParameter("choose_supplier");
+//	    String incorrupt_connect = "";
+//	    String department_connect = "";
+	    String user_ip = request.getRemoteAddr();
 	    String user_date = dateformat.format(new Date());
-	    System.out.print(user_connect + "\n" + user_ip + "\n" + user_date
-		    + "\n");
-	    MessageBoard msgbrd = new MessageBoard();
-	    msgbrd.setCost_expend_id(cost_expend_id);
-	    msgbrd.setUser_connect(user_connect);
-	    msgbrd.setProvider_connect(provider_connect);
-	    msgbrd.setIncorrupt_connect(incorrupt_connect);
-	    msgbrd.setDepartment_connect(department_connect);
-	    msgbrd.setUser_ip(user_ip);
-	    msgbrd.setUser_date(user_date);
+	    msg.setUser_ip(user_ip) ;
+	    msg.setUser_date(user_date) ;
 	    try {
-		flag = msgbrodimpl.insertMssageBroad(msgbrd);
+		flag = dao.insertMssageBroad(msg);
 	    } catch (Exception e) {
-		out.print("{success:false,msg:'提交失败'}");
-		e.printStackTrace();
+		e.printStackTrace() ;
 	    }
 	    if (flag) {
 		out.print("{success:true,msg:'提交成功'}");
 	    } else {
 		out.print("{success:false,msg:'提交失败'}");
 	    }
-	} else if (action.equals("del")) {
-	    ControlItemImpl conlIte = new ControlItemImpl();
-	    int control_item_id = new Integer(request.getParameter(
-		    "control_item_id").toString());
-	    System.out.println(control_item_id);
-	    try {
-		flag = conlIte.deleteControlItem(control_item_id);
-	    } catch (Exception e) {
-		out.print("{success:false,msg:'提交失败'}");
-		e.printStackTrace();
-	    }
-	    if (flag) {
-		out.print("{success:true,msg:'提交成功'}");
-	    } else {
-		out.print("{success:false,msg:'提交失败'}");
-	    }
+	    out.flush();
+	    out.close();
+	} else if ("del".equals(action)) {
+	    
+	    
 	} else if (action.equals("updateDepartmentMessage")) {
-	    MessageBoardDAOImpl msgImpl = new MessageBoardDAOImpl();
-	    int cost_expend_id = new Integer(request
-		    .getParameter("costExpenID"));
-	    int message_board_id = new Integer(request
-		    .getParameter("message_board_id"));
-	    String incorrupt_connect = request
-		    .getParameter("incorrupt_connect");
-	    String department_connect = request
-		    .getParameter("department_connect");
-	    MessageBoard msgbrd = new MessageBoard();
-	    msgbrd.setMessage_board_id(message_board_id) ;
-	    msgbrd.setCost_expend_id(cost_expend_id);
-	    msgbrd.setIncorrupt_connect(incorrupt_connect);
-	    msgbrd.setDepartment_connect(department_connect);
+	    jsonObject = JSONObject.fromObject(formJson);
+	    msg = (MessageBoard) JSONObject.toBean(jsonObject,
+		    MessageBoard.class);
+	    MessageBoardDAO dao = (MessageBoardDAO)Factory.getInstance("MessageBoardDAO") ;
+	    System.out.println(msg.getInvestigate_reply()) ;
 	    try {
-		flag = msgImpl.updateAdminMssageBroad(msgbrd);
+		flag = dao.updateAdminMssageBroad(msg);
 	    } catch (Exception e) {
-		out.print("{success:false,msg:'提交失败'}");
-		e.printStackTrace();
+		e.printStackTrace() ;
 	    }
 	    if (flag) {
 		out.print("{success:true,msg:'提交成功'}");
 	    } else {
 		out.print("{success:false,msg:'提交失败'}");
 	    }
+	    out.flush();
+	    out.close();
+	    
 	}
     }
 
-    /**
-     * Initialization of the servlet. <br>
-     * 
-     * @throws ServletException
-     *             if an error occurs
-     */
-    public void init() throws ServletException {
-	// Put your code here
-    }
 
 }

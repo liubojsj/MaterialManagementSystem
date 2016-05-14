@@ -5,13 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import lb.mms.dao.ControlItemDAO;
 import lb.mms.entity.ControlItem;
 import lb.mms.util.DBConfig;
 import lb.mms.util.DBConnection;
 
-public class ControlItemImpl implements ControlItemDAO {
+public class ControlItemDAOImpl implements ControlItemDAO {
 
     public ArrayList<ControlItem> findAll() throws Exception {
 
@@ -169,7 +170,17 @@ public boolean updateControlItem(ControlItem ci) throws Exception {
 	ps.setInt(7, ci.getCutting_down_expenditures_sum());
 	ps.setInt(8, ci.getControl_item_id());
 	ps.executeUpdate();
-	System.out.println("修改成功");
+	DBConnection.close(ps, conn);
+	return true ;
+}
+
+public boolean updateControlItemSum(int control_item_id ,int dynamic_expend) throws Exception {
+	// TODO Auto-generated method stub
+	Connection conn = DBConnection.getConnection();
+	PreparedStatement ps = conn.prepareStatement("UPDATE control_item_tb SET dynamic_expend= ? WHERE control_item_id =? ");
+	ps.setInt(1, dynamic_expend);
+	ps.setInt(2, control_item_id);
+	ps.executeUpdate();
 	DBConnection.close(ps, conn);
 	return true ;
 }

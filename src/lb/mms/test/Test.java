@@ -2,7 +2,7 @@ package lb.mms.test;
 
 import java.util.ArrayList;
 
-import lb.mms.dao.impl.ControlItemImpl;
+import lb.mms.dao.impl.ControlItemDAOImpl;
 import lb.mms.entity.ControlItem;
 import net.sf.json.JSONArray;
 
@@ -26,7 +26,7 @@ public class Test
     {
         // TODO Auto-generated method stub
         
-        ControlItemImpl deptiml = new ControlItemImpl();
+        ControlItemDAOImpl deptiml = new ControlItemDAOImpl();
         ArrayList<ControlItem> deplistArrayList =  deptiml.findAll();
         String str = JSONArray.fromObject(deplistArrayList).toString();
         System.out.print(str);

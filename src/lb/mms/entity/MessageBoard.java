@@ -6,10 +6,11 @@ public class MessageBoard {
     private int message_board_id ;
     private int cost_expend_id ;
     private int construction_repair_id ;
-    private String user_connect ;
-    private String provider_connect ;
-    private String incorrupt_connect ;
-    private String department_connect ;
+    private String user_leave_message ;
+    private String user_message_content ;
+    private String company_name ;
+    private String company_connect ;
+    private String investigate_reply ;
     private String user_ip ;
     private String user_date ;
     /**
@@ -81,90 +82,112 @@ public class MessageBoard {
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:31</li>
-     * <li>3、方法含义：为字段“user_connect”设置值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:01</li>
+     * <li>3、方法含义：为字段“user_leave_message”设置值</li>
      * </ul>
-     * @param 参数“user_connect”的值将赋给字段“user_connect”
+     * @param 参数“user_leave_message”的值将赋给字段“user_leave_message”
      */
-    public void setUser_connect(String user_connect) {
-	this.user_connect = user_connect;
+    public void setUser_leave_message(String user_leave_message) {
+	this.user_leave_message = user_leave_message;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:31</li>
-     * <li>3、方法含义：返回字段“user_connect”的值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:01</li>
+     * <li>3、方法含义：返回字段“user_leave_message”的值</li>
      * </ul>
-     * @return 返回字段“user_connect”的值
+     * @return 返回字段“user_leave_message”的值
      */
-    public String getUser_connect() {
-	return user_connect;
+    public String getUser_leave_message() {
+	return user_leave_message;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:35</li>
-     * <li>3、方法含义：为字段“provider_connect”设置值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:21</li>
+     * <li>3、方法含义：为字段“user_message_content”设置值</li>
      * </ul>
-     * @param 参数“provider_connect”的值将赋给字段“provider_connect”
+     * @param 参数“user_message_content”的值将赋给字段“user_message_content”
      */
-    public void setProvider_connect(String provider_connect) {
-	this.provider_connect = provider_connect;
+    public void setUser_message_content(String user_message_content) {
+	this.user_message_content = user_message_content;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:35</li>
-     * <li>3、方法含义：返回字段“provider_connect”的值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:21</li>
+     * <li>3、方法含义：返回字段“user_message_content”的值</li>
      * </ul>
-     * @return 返回字段“provider_connect”的值
+     * @return 返回字段“user_message_content”的值
      */
-    public String getProvider_connect() {
-	return provider_connect;
+    public String getUser_message_content() {
+	return user_message_content;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:39</li>
-     * <li>3、方法含义：为字段“incorrupt_connect”设置值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:11</li>
+     * <li>3、方法含义：为字段“company_name”设置值</li>
      * </ul>
-     * @param 参数“incorrupt_connect”的值将赋给字段“incorrupt_connect”
+     * @param 参数“company_name”的值将赋给字段“company_name”
      */
-    public void setIncorrupt_connect(String incorrupt_connect) {
-	this.incorrupt_connect = incorrupt_connect;
+    public void setCompany_name(String company_name) {
+	this.company_name = company_name;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:39</li>
-     * <li>3、方法含义：返回字段“incorrupt_connect”的值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:11</li>
+     * <li>3、方法含义：返回字段“company_name”的值</li>
      * </ul>
-     * @return 返回字段“incorrupt_connect”的值
+     * @return 返回字段“company_name”的值
      */
-    public String getIncorrupt_connect() {
-	return incorrupt_connect;
+    public String getCompany_name() {
+	return company_name;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:42</li>
-     * <li>3、方法含义：为字段“department_connect”设置值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:28</li>
+     * <li>3、方法含义：为字段“company_connect”设置值</li>
      * </ul>
-     * @param 参数“department_connect”的值将赋给字段“department_connect”
+     * @param 参数“company_connect”的值将赋给字段“company_connect”
      */
-    public void setDepartment_connect(String department_connect) {
-	this.department_connect = department_connect;
+    public void setCompany_connect(String company_connect) {
+	this.company_connect = company_connect;
     }
     /**
      * <ul>
      * <li>1、开发作者：刘博</li>
-     * <li>2、编写日期：2015-12-23 : 下午05:03:42</li>
-     * <li>3、方法含义：返回字段“department_connect”的值</li>
+     * <li>2、编写日期：2016-2-24 : 下午06:25:28</li>
+     * <li>3、方法含义：返回字段“company_connect”的值</li>
      * </ul>
-     * @return 返回字段“department_connect”的值
+     * @return 返回字段“company_connect”的值
      */
-    public String getDepartment_connect() {
-	return department_connect;
+    public String getCompany_connect() {
+	return company_connect;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-24 : 下午07:51:18</li>
+     * <li>3、方法含义：为字段“investigate_reply”设置值</li>
+     * </ul>
+     * @param 参数“investigate_reply”的值将赋给字段“investigate_reply”
+     */
+    public void setInvestigate_reply(String investigate_reply) {
+	this.investigate_reply = investigate_reply;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-24 : 下午07:51:18</li>
+     * <li>3、方法含义：返回字段“investigate_reply”的值</li>
+     * </ul>
+     * @return 返回字段“investigate_reply”的值
+     */
+    public String getInvestigate_reply() {
+	return investigate_reply;
     }
     /**
      * <ul>

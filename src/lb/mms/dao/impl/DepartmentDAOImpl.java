@@ -33,7 +33,7 @@ public class DepartmentDAOImpl implements DepartmentDAO
                 dept.setDepartment_id(rs.getInt("department_id"));
                 dept.setDepartment_name(rs.getString("department_name"));
                 dept.setRoot_department(rs.getBoolean("root_department"));
-                dept.setLeaf_department(rs.getBoolean("root_department"));
+                dept.setLeaf_department(rs.getBoolean("leaf_department"));
                 dept.setSuperior_department_id(rs
                         .getInt("superior_department_id"));
                 dept.setDepartment_name_abbreviation(rs

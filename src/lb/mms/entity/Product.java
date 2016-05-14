@@ -2,8 +2,11 @@ package lb.mms.entity;
 
 public class Product {
     private int product_id ;
-    private int control_item_id ;
     private String product_name ;
+    private int control_item_id ;
+    private String control_item_name ;
+    private int department_id ;
+    private String department_name ;
     private String unit ;
     private String specification ;
     private String manufacturer ;
@@ -30,6 +33,72 @@ public class Product {
      */
     public int getProduct_id() {
 	return product_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午12:07:43</li>
+     * <li>3、方法含义：为字段“control_item_name”设置值</li>
+     * </ul>
+     * @param 参数“control_item_name”的值将赋给字段“control_item_name”
+     */
+    public void setControl_item_name(String control_item_name) {
+	this.control_item_name = control_item_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午12:07:43</li>
+     * <li>3、方法含义：返回字段“control_item_name”的值</li>
+     * </ul>
+     * @return 返回字段“control_item_name”的值
+     */
+    public String getControl_item_name() {
+	return control_item_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午12:07:55</li>
+     * <li>3、方法含义：为字段“department_id”设置值</li>
+     * </ul>
+     * @param 参数“department_id”的值将赋给字段“department_id”
+     */
+    public void setDepartment_id(int department_id) {
+	this.department_id = department_id;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午12:08:03</li>
+     * <li>3、方法含义：为字段“department_name”设置值</li>
+     * </ul>
+     * @param 参数“department_name”的值将赋给字段“department_name”
+     */
+    public void setDepartment_name(String department_name) {
+	this.department_name = department_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午12:08:03</li>
+     * <li>3、方法含义：返回字段“department_name”的值</li>
+     * </ul>
+     * @return 返回字段“department_name”的值
+     */
+    public String getDepartment_name() {
+	return department_name;
+    }
+    /**
+     * <ul>
+     * <li>1、开发作者：刘博</li>
+     * <li>2、编写日期：2016-2-3 : 下午12:07:55</li>
+     * <li>3、方法含义：返回字段“department_id”的值</li>
+     * </ul>
+     * @return 返回字段“department_id”的值
+     */
+    public int getDepartment_id() {
+	return department_id;
     }
     /**
      * <ul>

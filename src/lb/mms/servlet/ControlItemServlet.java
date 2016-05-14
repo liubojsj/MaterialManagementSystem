@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -11,179 +12,86 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lb.mms.dao.impl.ControlItemImpl;
+import lb.mms.dao.ControlItemDAO;
+import lb.mms.dao.impl.ControlItemDAOImpl;
 import lb.mms.entity.ControlItem;
+import lb.mms.util.Factory;
 import net.sf.json.JSONObject;
 
 public class ControlItemServlet extends HttpServlet {
 
-    /**
-     * <ul>
-     * <li>1、字段类型：long</li>
-     * <li>2、字段名称：ControlItemServlet.java</li>
-     * </ul>
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Constructor of the object.
-     */
-    public ControlItemServlet() {
-	super();
-    }
-
-    /**
-     * Destruction of the servlet. <br>
-     */
-    public void destroy() {
-	super.destroy(); // Just puts "destroy" string in log
-	// Put your code here
-    }
-
-    /**
-     * The doGet method of the servlet. <br>
-     * 
-     * This method is called when a form has its tag value method equals to get.
-     * 
-     * @param request
-     *            the request send by the client to the server
-     * @param response
-     *            the response send by the server to the client
-     * @throws ServletException
-     *             if an error occurred
-     * @throws IOException
-     *             if an error occurred
-     */
     public void doGet(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html;charset=utf-8");
-	response.setCharacterEncoding("UTF-8");
-	PrintWriter out = response.getWriter();
-	String conItValue = new String(request.getParameter("conItValue")
-		.getBytes("ISO8859_1"), "UTF-8");
-	int start = Integer.parseInt(request.getParameter("start").toString());
-	int limit = Integer.parseInt(request.getParameter("limit").toString());
-	String searchText = request.getParameter("limit").toString();
-	Map<String, Object> map = new HashMap<String, Object>();
-	if (conItValue.equals("getAll")) {
-	    ControlItemImpl conlIte = new ControlItemImpl();
-	    ArrayList<ControlItem> recordList = null;
-	    int recordCount = 0;
-	    try {
-		recordCount = conlIte.getCount();
-		recordList = conlIte.findAll();
-	    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	    map.put("accountCount", recordCount);
-	    map.put("accountList", recordList);
-
-	} else if (conItValue.indexOf(",") != -1) {
-	    ControlItemImpl conlIte = new ControlItemImpl();
-	    ArrayList<ControlItem> recordList = null;
-	    int recordCount = 0;
-	    try {
-		recordCount = conlIte.getCountByDepartmentID(new Integer(
-			conItValue.split(",")[1]));
-		recordList = (ArrayList<ControlItem>) conlIte.findAllByID(
-			new Integer(conItValue.split(",")[1]), start, limit);
-	    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	    map.put("accountCount", recordCount);
-	    map.put("accountList", recordList);
-
-	}
-	JSONObject jsonObject = JSONObject.fromObject(map);
-	System.out.print(searchText);
-	out.print(jsonObject);
-	out.flush();
-	out.close();
+	this.doPost(request, response);
     }
 
-    /**
-     * The doPost method of the servlet. <br>
-     * 
-     * This method is called when a form has its tag value method equals to
-     * post.
-     * 
-     * @param request
-     *            the request send by the client to the server
-     * @param response
-     *            the response send by the server to the client
-     * @throws ServletException
-     *             if an error occurred
-     * @throws IOException
-     *             if an error occurred
-     */
     public void doPost(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
-	// this.doGet(request, response);
-	request.setCharacterEncoding("UTF-8");
+	// 设置响应字符集,以输出中文到浏览器正常显示
 	response.setContentType("text/html;charset=utf-8");
+	// 设置响应内容编码
 	response.setCharacterEncoding("UTF-8");
+	// 获取response对象
 	PrintWriter out = response.getWriter();
-	String conItValue = request.getParameter("conItValue");
-	String formJson = request.getParameter("formJson");
-	
-	
-	String count_quantity = request.getParameter("count_quantity");
-	String amount_fixation = request.getParameter("amount_fixation");
-	String expend_law = request.getParameter("expend_law");
-	
-	
-	if(count_quantity == null){
-	    count_quantity= "" ;
-	}else {
-	    count_quantity= count_quantity+"," ;
-	};
-	if(amount_fixation == null){
-	    amount_fixation= "" ;
-	}else {
-	    amount_fixation= amount_fixation+"," ;
-	};
-	if(expend_law == null){
-	    expend_law= "" ;
-	}
-	boolean flag = false;
+	// 设置请求字符集,以便从请求读取中文
+	request.setCharacterEncoding("utf-8");
+	// 获取请求行为
+	String action = request.getParameter("action");
+	// 获取模糊查询关键字
+	String searchText = request.getParameter("searchText");
+	// 设置标志位
+	Boolean flag = false;
+	// 获取分页起始页与每页条目数
+	int start = new Integer(request.getParameter("start") != null ? request
+		.getParameter("start") : "-1");
+	int limit = new Integer(request.getParameter("limit") != null ? request
+		.getParameter("limit") : "-1");
+	int department_id = new Integer(
+		request.getParameter("department_id") != null ? request
+			.getParameter("department_id") : "-1");
+	String count_quantity = request.getParameter("count_quantity") != null ? request
+		.getParameter("count_quantity")+"," : "";
+	String amount_fixation = request.getParameter("amount_fixation") != null ? request
+		.getParameter("amount_fixation")+",": "";
+	String expend_law = request.getParameter("expend_law") != null ? request
+		.getParameter("expend_law"): "";
+	// 获取总记录数
+	int count = 0;
+	// 准备页面JSON
 	Map<String, Object> map = new HashMap<String, Object>();
-	if (conItValue.indexOf(",") != -1) {
-	    int start = Integer.parseInt(request.getParameter("start")
-		    .toString());
-	    int limit = Integer.parseInt(request.getParameter("limit")
-		    .toString());
-	    ControlItemImpl conlIte = new ControlItemImpl();
-	    ArrayList<ControlItem> recordList = null;
-	    int recordCount = 0;
+	List<ControlItem> cilist = null;
+	JSONObject jsonObject = null;
+	ControlItem ci = null;
+	String formJson = request.getParameter("formJson");
+	// 页面操作逻辑判断
+	if ("list".equals(action)) {
+	    ControlItemDAO dao = (ControlItemDAO) Factory
+		    .getInstance("ControlItemDAO");
 	    try {
-		recordCount = conlIte.getCountByDepartmentID(new Integer(
-			conItValue.split(",")[1]));
-		recordList = (ArrayList<ControlItem>) conlIte.findAllByID(
-			new Integer(conItValue.split(",")[1]), start, limit);
-	    } catch (Exception e){
-		// TODO Auto-generated catch block
+		count = dao.getCountByDepartmentID(department_id);
+		cilist = (ArrayList<ControlItem>) dao.findAllByID(
+			department_id, start, limit);
+	    } catch (Exception e) {
+		flag = false;
 		e.printStackTrace();
 	    }
-	    map.put("accountCount", recordCount);
-	    map.put("accountList", recordList);
-	    JSONObject jsonObject = JSONObject.fromObject(map);
+	    map.put("accountCount", count);
+	    map.put("accountList", cilist);
+	    jsonObject = JSONObject.fromObject(map);
 	    out.print(jsonObject);
-	} else if (conItValue.equals("add")) {
-	    // System.out.println(formJson) ;
-	    ControlItemImpl conlIte = new ControlItemImpl();
-	    JSONObject jsonObject = JSONObject.fromObject(formJson);
-	    ControlItem ci = (ControlItem) JSONObject.toBean(jsonObject,
-		    ControlItem.class);
-	    ci.setCont_feature(count_quantity+amount_fixation+expend_law);
+	    out.flush();
+	    out.close();
+	} else if ("add".equals(action)) {
+	    jsonObject = JSONObject.fromObject(formJson);
+	    ci = (ControlItem) JSONObject.toBean(jsonObject, ControlItem.class);
 
+	    ControlItemDAO dao = (ControlItemDAO) Factory
+		    .getInstance("ControlItemDAO");
+	    ci.setCont_feature(count_quantity+amount_fixation+expend_law);
 	    try {
-		flag = conlIte.insertControlItem(ci);
+		flag = dao.insertControlItem(ci);
 	    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		out.print("{success:false,msg:'提交失败'}");
+		flag = false;
 		e.printStackTrace();
 	    }
 	    if (flag) {
@@ -191,17 +99,17 @@ public class ControlItemServlet extends HttpServlet {
 	    } else {
 		out.print("{success:false,msg:'提交失败'}");
 	    }
-
-	} else if (conItValue.equals("del")) {
-	    ControlItemImpl conlIte = new ControlItemImpl();
+	    out.flush();
+	    out.close();
+	} else if ("delete".equals(action)) {
+	    ControlItemDAOImpl conlIte = new ControlItemDAOImpl();
 	    int control_item_id = new Integer(request.getParameter(
 		    "control_item_id").toString());
 	    System.out.println(control_item_id);
 	    try {
 		flag = conlIte.deleteControlItem(control_item_id);
 	    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		out.print("{success:false,msg:'提交失败'}");
+		flag = false;
 		e.printStackTrace();
 	    }
 	    if (flag) {
@@ -211,17 +119,16 @@ public class ControlItemServlet extends HttpServlet {
 	    }
 	    out.flush();
 	    out.close();
-	} else if (conItValue.equals("update")) {
-	    ControlItemImpl conlIte = new ControlItemImpl();
-	    JSONObject jsonObject = JSONObject.fromObject(formJson);
-	    ControlItem ci = (ControlItem) JSONObject.toBean(jsonObject,
-		    ControlItem.class);
+	} else if ("update".equals(action)) {
+	    jsonObject = JSONObject.fromObject(formJson);
+	    ci = (ControlItem) JSONObject.toBean(jsonObject, ControlItem.class);
+	    ControlItemDAO dao = (ControlItemDAO) Factory
+		    .getInstance("ControlItemDAO");
 	    ci.setCont_feature(count_quantity+amount_fixation+expend_law);
 	    try {
-		flag = conlIte.updateControlItem(ci);
+		flag = dao.updateControlItem(ci);
 	    } catch (Exception e) {
-		// TODO Auto-generated catch block
-		out.print("{success:false,msg:'提交失败'}");
+		flag = false;
 		e.printStackTrace();
 	    }
 	    if (flag) {
@@ -230,19 +137,7 @@ public class ControlItemServlet extends HttpServlet {
 		out.print("{success:false,msg:'提交失败'}");
 	    }
 
-	    out.flush();
-	    out.close();
 	}
-    }
-
-    /**
-     * Initialization of the servlet. <br>
-     * 
-     * @throws ServletException
-     *             if an error occurs
-     */
-    public void init() throws ServletException {
-	// Put your code here
     }
 
 }

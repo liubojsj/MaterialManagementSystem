@@ -5,8 +5,6 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	ServletContext context = request.getSession().getServletContext();
-	String departmentJson =(String)context.getAttribute("departmentJson");
 	User user = (User)request.getSession().getAttribute("user") ;
 	boolean userRole = false ;
 	if(user!=null){
@@ -25,7 +23,7 @@
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="This is my page">
 		<script type="text/javascript">
-			var departmentJson = '<%=departmentJson%>';
+			var login_username = '当前登录:<%= user!=null?user.getName():"普通用户"%>';
 		</script>
 
 		<!-- 引入ExtJS框架样式 -->

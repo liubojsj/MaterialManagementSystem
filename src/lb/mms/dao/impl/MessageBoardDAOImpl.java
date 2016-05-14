@@ -53,10 +53,11 @@ public class MessageBoardDAOImpl implements MessageBoardDAO {
 		mg.setMessage_board_id(rs.getInt("message_board_id"));
 		mg.setCost_expend_id(rs.getInt("cost_expend_id"));
 		mg.setConstruction_repair_id(rs.getInt("construction_repair_id")) ;
-		mg.setUser_connect(rs.getString("user_connect"));
-		mg.setProvider_connect(rs.getString("provider_connect"));
-		mg.setIncorrupt_connect(rs.getString("incorrupt_connect"));
-		mg.setDepartment_connect(rs.getString("department_connect"));
+		mg.setUser_leave_message(rs.getString("user_leave_message"));
+		mg.setUser_message_content(rs.getString("user_message_content"));
+		mg.setInvestigate_reply(rs.getString("investigate_reply")) ;
+		mg.setCompany_name(rs.getString("company_name"));
+		mg.setCompany_connect(rs.getString("company_connect"));
 		mg.setUser_ip(rs.getString("user_ip"));
 		mg.setUser_date(rs.getString("user_date"));
 		mglist.add(mg);
@@ -95,14 +96,15 @@ public class MessageBoardDAOImpl implements MessageBoardDAO {
 	PreparedStatement ps = null;
 	conn = DBConfig.getConnection();
 	ps = conn
-		.prepareStatement("insert into message_board_tb(cost_expend_id,user_connect,provider_connect,incorrupt_connect,department_connect,user_ip,user_date) values(?,?,?,?,?,?,?)");
+		.prepareStatement("insert into message_board_tb(cost_expend_id,construction_repair_id,user_leave_message,user_message_content,company_name,company_connect,user_ip,user_date) values(?,?,?,?,?,?,?,?)");
 	ps.setInt(1, msgbrd.getCost_expend_id());
-	ps.setString(2, msgbrd.getUser_connect());
-	ps.setString(3, msgbrd.getProvider_connect());
-	ps.setString(4, msgbrd.getIncorrupt_connect());
-	ps.setString(5, msgbrd.getDepartment_connect());
-	ps.setString(6, msgbrd.getUser_ip());
-	ps.setString(7, msgbrd.getUser_date());
+	ps.setInt(2, msgbrd.getConstruction_repair_id());
+	ps.setString(3, msgbrd.getUser_leave_message());
+	ps.setString(4, msgbrd.getUser_message_content());
+	ps.setString(5, msgbrd.getCompany_name());
+	ps.setString(6, msgbrd.getCompany_connect());
+	ps.setString(7, msgbrd.getUser_ip());
+	ps.setString(8, msgbrd.getUser_date());
 	ps.execute();
 	DBConnection.close(ps, conn);
 	return true;
@@ -113,12 +115,10 @@ public class MessageBoardDAOImpl implements MessageBoardDAO {
 	PreparedStatement ps = null;
 	conn = DBConfig.getConnection();
 	ps = conn
-		.prepareStatement("update message_board_tb set incorrupt_connect = ?,department_connect= ? where message_board_id =? and cost_expend_id= ?");
-	
-	ps.setString(1, msgbrd.getIncorrupt_connect());
-	ps.setString(2, msgbrd.getDepartment_connect());
-	ps.setInt(3, msgbrd.getMessage_board_id());
-	ps.setInt(4, msgbrd.getCost_expend_id());
+		.prepareStatement("update message_board_tb set investigate_reply = ? where message_board_id =? and cost_expend_id= ?");
+	ps.setString(1, msgbrd.getInvestigate_reply());
+	ps.setInt(2, msgbrd.getMessage_board_id());
+	ps.setInt(3, msgbrd.getCost_expend_id());
 	ps.execute();
 	DBConnection.close(ps, conn);
 	return true;

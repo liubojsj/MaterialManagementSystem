@@ -48,7 +48,8 @@ public class ProductServlet extends HttpServlet {
 	// 获取请求行为
 	String action = request.getParameter("action");
 	// 获取模糊查询关键字
-	String searchText = request.getParameter("searchText");
+	String searchText = request.getParameter("searchText")!= null ? request
+		.getParameter("searchText") : "";
 	// 设置标志位
 	Boolean flag = false;
 	// 获取分页起始页与每页条目数
@@ -58,6 +59,9 @@ public class ProductServlet extends HttpServlet {
 		.getParameter("limit") : "-1");
 	int product_id = new Integer(request.getParameter("product_id") != null ? request
 		.getParameter("product_id") : "-1");
+//	System.out.println("部门编码："+request.getParameter("department_id"));
+	int departmentId = new Integer(request.getParameter("department_id") != null ? request
+		.getParameter("department_id") : "-1");
 	// 获取总记录数
 	int count = 0;
 	// 准备页面JSON
@@ -67,14 +71,13 @@ public class ProductServlet extends HttpServlet {
 	Product p = null ;
 	String formJson = request.getParameter("formJson");
 	// 页面操作逻辑判断
-	if ("list".equals(action)) {
+	if ("getAll".equals(action)) {
 	    
 	    ProductDAO dao = (ProductDAO)Factory.getInstance("ProductDAO") ;
 	    try {
 		// 获取查询数据列表
-		plist = dao.getProductList(start, limit,
-			searchText);
-		count = dao.getRowCount(searchText);
+		plist = dao.getProductList(start, limit, searchText, departmentId);
+		count = dao.getRowCount(searchText, departmentId);
 		// 获取总记录条目数
 		// System.out.println("######################"+"\n"+"获得查询结果数据条数为:"+plist.size()+"\n"+"######################") ;
 	    } catch (Exception e) {
@@ -134,6 +137,40 @@ public class ProductServlet extends HttpServlet {
 	    } else {
 		out.print("提交失败");
 	    }
+	    out.flush();
+	    out.close();
+	}else if("combox_list".equals(action)){
+	    ProductDAO dao = (ProductDAO)Factory.getInstance("ProductDAO") ;
+	    try {
+		// 获取查询数据列表
+		plist = dao.getProductListByDepartmentID(start, limit, departmentId);
+//		count = dao.getRowCount(searchText);
+		// 获取总记录条目数
+		// System.out.println("######################"+"\n"+"获得查询结果数据条数为:"+plist.size()+"\n"+"######################") ;
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	    map.put("count", count);
+	    map.put("list", plist);
+	    jsonObject = JSONObject.fromObject(map);
+	    out.print(jsonObject);
+	    out.flush();
+	    out.close();
+	}else if("img".equals(action)){
+	    ProductDAO dao = (ProductDAO)Factory.getInstance("ProductDAO") ;
+	    try {
+		// 获取查询数据列表
+		p = dao.getProductById(product_id);
+//		count = dao.getRowCount(searchText);
+		// 获取总记录条目数
+		// System.out.println("######################"+"\n"+"获得查询结果数据条数为:"+plist.size()+"\n"+"######################") ;
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+//	    map.put("count", count);
+	    map.put("data", p);
+	    jsonObject = JSONObject.fromObject(map);
+	    out.print(jsonObject);
 	    out.flush();
 	    out.close();
 	}

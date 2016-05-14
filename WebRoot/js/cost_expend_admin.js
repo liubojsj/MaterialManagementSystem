@@ -1,6 +1,7 @@
 Ext.require(['*']);
 var dateViewWindow;
 var imageTpl;
+var imagesStore
 Ext.onReady(function() {
 	var formAction = '';
 
@@ -8,53 +9,90 @@ Ext.onReady(function() {
 	 * ********************定义Modle数据类型 ********************
 	 */
 
+	Ext.define('Ext.grid.column.Actiontextcolumn', {
+				extend : 'Ext.grid.column.Column',
+				alias : ['widget.actiontextcolumn'],
+				defaultRenderer : function(value) {
+					var me = this;
+					prefix = Ext.baseCSSPrefix;
+					scope = me.origScope || me;
+					value = '<label ' + ' class="x-action-col-icon">' + value
+							+ '</label>' // +
+							// '<img role="button" src="'
+					// + (me.icon || Ext.BLANK_IMAGE_URL) + '" class="'
+					// + this.iconCls + ' x-action-col-icon"/>';
+					return value;
+				},
+
+				processEvent : function(type, view, cell, recordIndex,
+						cellIndex, e, record, row) {
+					var me = this;
+					if (type == 'click') {
+						me.handler.call(me.scope || me.origScope || me, view,
+								recordIndex, cellIndex, e, record, row);
+					}
+				}
+			});
+
 	/*
 	 * 部门成本支出模型(cost_expend)
 	 */
 	Ext.define('Cost_expend', {
-		extend : 'Ext.data.Model',
-		fields : [{
-					name : 'cost_expend_id',
-					type : 'int'
-				}, {
-					name : 'cost_expend_name',
-					type : 'string'
-				}, {
-					name : 'department_id',
-					type : 'string'
-				}, {
-					name : 'department_name',
-					type : 'string'
-				}, {
-					name : 'specification',
-					type : 'string'
-				}, {
-					name : 'price',
-					type : 'int'
-				}, {
-					name : 'count',
-					type : 'int'
-				}, {
-					name : 'sum',
-					type : 'int'
-				}, {
-					name : 'providerd',
-					type : 'string'
-				}, {
-					name : 'providerd_choose',
-					type : 'string'
-				}, {
-					name : 'check_date',
-					type : 'string'
-				}, {
-					name : 'details',
-					type : 'string'
-				}, {
-					name : 'evaluation_message',
-					type : 'string'
-				}]
-			// idProperty : 'control_item_id'
-		});
+				extend : 'Ext.data.Model',
+				fields : [{
+							name : 'cost_expend_id',
+							type : 'int'
+						}, {
+							name : 'cost_expend_name',
+							type : 'string'
+						}, {
+							name : 'product_id',
+							type : 'int'
+						}, {
+							name : 'product_name',
+							type : 'string'
+						}, {
+							name : 'department_id',
+							type : 'int'
+						}, {
+							name : 'department_name',
+							type : 'string'
+						}, {
+							name : 'control_item_id',
+							type : 'int'
+						}, {
+							name : 'control_item_name',
+							type : 'string'
+						}, {
+							name : 'specification',
+							type : 'string'
+						}, {
+							name : 'price',
+							type : 'int'
+						}, {
+							name : 'count',
+							type : 'int'
+						}, {
+							name : 'sum',
+							type : 'int'
+						}, {
+							name : 'providerd',
+							type : 'string'
+						}, {
+							name : 'providerd_choose',
+							type : 'string'
+						}, {
+							name : 'check_date',
+							type : 'string'
+						}, {
+							name : 'details',
+							type : 'string'
+						}, {
+							name : 'evaluation_message',
+							type : 'string'
+						}],
+				idProperty : 'cost_expend_id'
+			});
 
 	/*
 	 * ===============定义部门Department模型===============
@@ -81,29 +119,72 @@ Ext.onReady(function() {
 							type : 'int'
 						}]
 			});
+
+	Ext.define('Product', {
+		extend : 'Ext.data.Model',
+		fields : [{
+					name : 'product_id',
+					type : 'int'
+				}, {
+					name : 'control_item_id',
+					type : 'int'
+				}, {
+					name : 'control_item_name',
+					type : 'String'
+				}, {
+					name : 'product_name',
+					type : 'string'
+				}, {
+					name : 'specification',
+					type : 'string'
+				}, {
+					name : 'unit',
+					type : 'string'
+				}, {
+					name : 'use_restriction',
+					type : 'string'
+				}, {
+					name : 'manufacturer',
+					type : 'string'
+				}, {
+					name : 'product_img',
+					type : 'string'
+				}]
+			// idProperty : 'control_item_id'
+		});
 	Ext.define('Image', {
 				extend : 'Ext.data.Model',
 				fields : [{
-							name : 'src',
+							name : 'product_img',
 							type : 'string'
 						}, {
-							name : 'caption',
+							name : 'product_name',
 							type : 'string'
 						}]
 			});
 
-	var imagesStore = Ext.create('Ext.data.Store', {
+	imagesStore = Ext.create('Ext.data.Store', {
 				model : 'Image',
-				data : [{
-							src : './images/wsz.bmp',
-							caption : ''
-						}]
+				proxy : {
+					type : 'ajax',
+					url : './ProductServlet',
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						// totalProperty : 'count',
+						root : 'data'
+					}
+				},
+				autoLoad : false
 			});
 
-	imageTpl = new Ext.XTemplate('<tpl for=".">',
-			'<div style="margin-bottom: 10px;" class="thumb-wrap">',
-			'<img src="{src}" />', '<br/><span>{caption}</span>', '</div>',
-			'</tpl>');
+	imageTpl = new Ext.XTemplate(
+			'<tpl for=".">',
+			'<div style="margin: 10px 20px;" class="thumb-wrap">',
+			'<img src="./upload/images/{product_img}" style="width:150px;height:150px;"/>',
+			'<br/><span>{product_name}</span>', '</div>', '</tpl>');
 	/*
 	 * ===============结束定义部门Department模型===============
 	 */
@@ -119,9 +200,13 @@ Ext.onReady(function() {
 				pageSize : 10,
 				proxy : {
 					type : 'ajax',
-					url : './CostExpendServlet?conItValue=' + tabid,
+					url : './CostExpendServlet',
 					actionMethods : {
 						read : 'POST'
+					},
+					extraParams : {
+						action : "list",
+						'department_id' : department_id
 					},
 					reader : {
 						type : 'json',
@@ -135,7 +220,22 @@ Ext.onReady(function() {
 	 */
 	var departmentStore = Ext.create('Ext.data.Store', {
 				model : 'Department',
-				data : Ext.decode(departmentJson)
+				proxy : {
+
+					type : 'ajax',
+					url : './DepartmentServlet',
+					extraParams : {
+						"action" : "getAll"
+					},
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						root : 'date'
+					}
+				},
+				autoLoad : true
 			})
 	/*
 	 * ==================定义供应商选择模式==================
@@ -156,6 +256,23 @@ Ext.onReady(function() {
 	/*
 	 * ======================结束定义=========================
 	 */
+	var productStore = Ext.create('Ext.data.Store', {
+				model : 'Product',
+				// pageSize : 10,
+				proxy : {
+					type : 'ajax',
+					url : './ProductServlet',
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						totalProperty : 'count',
+						root : 'list'
+					}
+				},
+				autoLoad : false
+			});
 	/**
 	 * ********************结束Stroe定义********************
 	 */
@@ -168,7 +285,7 @@ Ext.onReady(function() {
 				Ext.apply(costExpendStore.proxy.extraParams, new_params);
 			});
 
-	var grid = Ext.create('Ext.grid.GridPanel', {
+	var costExpendGrid = Ext.create('Ext.grid.GridPanel', {
 				// title :'成 本 支 出 公 示',
 				// titleAlign:'center' ,
 				store : costExpendStore,
@@ -205,7 +322,7 @@ Ext.onReady(function() {
 							xtype : 'button',
 							text : '新增',
 							id : 'btnAdd',
-							hidden : !userRole ,
+							hidden : !userRole,
 							handler : function() {
 								costExpendFormPanel.getForm().reset();
 								formAction = 'add';
@@ -217,10 +334,11 @@ Ext.onReady(function() {
 							xtype : 'button',
 							text : '修改',
 							id : 'btnUpdate',
-							hidden : !userRole ,
+							hidden : !userRole,
 							listeners : {
 								"click" : function(btn) {
-									var data = grid.getSelectionModel();
+									var data = costExpendGrid
+											.getSelectionModel();
 									if (!data.hasSelection()) {
 										Ext.MessageBox.alert("提示",
 												"请先选择您要操作的行!");
@@ -238,7 +356,7 @@ Ext.onReady(function() {
 							xtype : 'button',
 							text : '删除',
 							id : 'btnDelet',
-							hidden : !userRole ,
+							hidden : !userRole,
 							listeners : {
 								"click" : function(btn) {
 
@@ -260,6 +378,11 @@ Ext.onReady(function() {
 							header : '成本支出名称',
 							dataIndex : 'cost_expend_name',
 							sortable : true,
+							width : 150
+						}, {
+							header : '品牌名称',
+							dataIndex : 'product_name',
+							sortable : true,
 							hidden : false
 						}, {
 							header : '规格',
@@ -267,12 +390,12 @@ Ext.onReady(function() {
 							sortable : true,
 							hidden : false
 						}, {
-							header : '单价',
+							header : '单价(含税)',
 							dataIndex : 'price',
 							align : 'center',
 							sortable : true,
 							hidden : false,
-							width : 40
+							width : 60
 						}, {
 							header : '数量',
 							dataIndex : 'count',
@@ -300,28 +423,37 @@ Ext.onReady(function() {
 							sortable : true,
 							hidden : false
 						}, {
-							header : '详情查看',
+							xtype : 'actiontextcolumn',
+							stopSelection : false, // 点击按钮选中行
+							align : 'center',
 							dataIndex : 'details',
-							sortable : true,
-							hidden : false,
-							renderer : function(value) {
-
-								return "<a onclick='javascript:openDateView("
-										+ value.substring(3, 8) + ")' >"
-										+ value.substring(0, 2) + "</a>";
+							broder : true,
+							floating : false,
+							width : 50,
+							text : '详情',
+							// icon : 'images/pingjia.png',
+							// iconCls :'background: url(images/pingjia.png)
+							tooltip : '点击查看详情',
+							handler : function(grid, rowIndex, colIndex) {
+								var rec = grid.getStore().getAt(rowIndex);
+								// alert("Edit " + rec.get('product_name'));
+								openDateView(rec);
 							}
 						}, {
-							header : '评价留言',
+							xtype : 'actiontextcolumn',
+							stopSelection : false, // 点击按钮选中行
+							align : 'center',
 							dataIndex : 'evaluation_message',
-							sortable : true,
-							hidden : false,
-							renderer : function(value) {
-								console.log(value);
-								return "<a href='http://" + webPath
-										+ "message_board.jsp?costExpenID="
-										+ value.substring(3, 8)
-										+ " 'target=_blank'>"
-										+ value.substring(0, 2) + "</a>";
+							broder : true,
+							floating : false,
+							width : 50,
+							text : '评价',
+							// icon : 'images/pingjia.png',
+							// iconCls :'background: url(images/pingjia.png)
+							tooltip : '点击进入评价',
+							handler : function(grid, rowIndex, colIndex) {
+								var rec = grid.getStore().getAt(rowIndex);
+								toMsg(rec.get('cost_expend_id'));
 							}
 						}],
 				dockedItems : [{
@@ -339,15 +471,18 @@ Ext.onReady(function() {
 	 * =================选中表格内容后赋值给相应的表单=================
 	 */
 
-	grid.on('itemclick', function(view, record) {
+	costExpendGrid.on('itemclick', function(view, record) {
 				var form = costExpendFormPanel.getForm();
-
+				// record = costExpendGrid.getSelectionModel()
+				// .getLastSelected();
+				// data = record.get('cost_expend_id');
+				// console.log(data_cost_expend_id);
 				// console.log(record.get('cost_expend_name')) ;
 				form.loadRecord(record);
 			});
 
 	function delGrid() {
-		var data = grid.getSelectionModel().getSelection()
+		var data = costExpendGrid.getSelectionModel().getSelection()
 		// alert(data );
 		if (data.length == 0) {
 			Ext.MessageBox.show({
@@ -371,9 +506,10 @@ Ext.onReady(function() {
 							});
 					// alert(ids.join(',')) ;
 					Ext.Ajax.request({
-						url : './CostExpendServlet?conItValue=del',
+						url : './CostExpendServlet',
 						params : {
-							cost_expend_id : ids.join(',')
+							cost_expend_id : ids.join(','),
+							action : 'delete'
 						},
 						method : 'POST',
 						// timeout : 2000,//默认30秒
@@ -420,17 +556,97 @@ Ext.onReady(function() {
 					name : "cost_expend_name",
 					fieldLabel : "成本支出名称"
 				}, {
+					xtype : 'combobox',
+					fieldLabel : '责任科室',
+					name : 'department_id',
+					store : departmentStore,
+					valueField : 'department_id',
+					displayField : 'department_name',
+					typeAhead : true,
+					queryMode : 'local',
+					emptyText : '请选择部门...',
+					allowBlank : false, // 是否允许空
+					blankText : '不能为空，请选择有效信息',// 错误提示信息
+					msgTarget : 'qtip', // 在该组件的下面显示错误提示信息
+					// selectOnFocus : true,
+					listeners : {
+						select : function(combo, record, index) {
+							var form = this.up('form').getForm();
+							form.findField('department_name')
+									.setValue(record[0].get('department_name'));
+							var conitem = Ext.getCmp('product_id');
+							conitem.clearValue();
+							conitem.store.load({
+										params : {
+											action : 'combox_list',
+											department_id : combo.getValue()
+
+										}
+									});
+						}
+					}
+				},{
+					xtype : 'combobox',
+					fieldLabel : '物品名称',
+					id : 'product_id',
+					name : 'product_id',
+					store : productStore,
+					valueField : 'product_id',
+					displayField : 'product_name',
+					typeAhead : true,
+					queryMode : 'local',
+					emptyText : '请选择物品...',
+					allowBlank : false, // 是否允许空
+					blankText : '不能为空，请选择有效信息',// 错误提示信息
+					msgTarget : 'qtip', // 在该组件的下面显示错误提示信息
+					selectOnFocus : true,
+					listeners : {
+						select : function(combo, record, index) {
+							var form = this.up('form').getForm();
+							form.findField('specification').setValue(record[0]
+									.get('specification'));
+							form.findField('product_name').setValue(record[0]
+									.get('product_name'));
+							form.findField('control_item_id')
+									.setValue(record[0].get('control_item_id'));
+							form.findField('control_item_name')
+									.setValue(record[0]
+											.get('control_item_name'));
+							// alert(form.findField('department_name').getValue());
+						}
+					}
+				}, {
 					xtype : "textfield",
 					name : "specification",
 					fieldLabel : "规格"
 				}, {
 					xtype : "numberfield",
 					name : "count",
-					fieldLabel : "数量"
+					fieldLabel : "数量",
+					listeners : {
+						change : function(field, value) {
+							var form = this.up('form').getForm();
+							var count = value;
+							form.findField('sum').setValue(count
+									* form.findField('price').value);
+							// value = parseInt(value, 10);
+							// field.setValue(value + value % 2);
+						}
+					}
 				}, {
 					xtype : "numberfield",
 					name : "price",
-					fieldLabel : "单价"
+					fieldLabel : "单价",
+					listeners : {
+						change : function(field, value) {
+							var form = this.up('form').getForm();
+							var price = value;
+							form.findField('sum').setValue(price
+									* form.findField('count').value);
+							// value = parseInt(value, 10);
+							// field.setValue(value + value % 2);
+						}
+					}
 				}, {
 					xtype : "numberfield",
 					name : "sum",
@@ -454,31 +670,7 @@ Ext.onReady(function() {
 					msgTarget : 'qtip',// 在该组件的下面显示错误提示信息
 					selectOnFocus : true
 
-				}, {
-					xtype : 'combobox',
-					fieldLabel : '责任科室',
-					name : 'department_name',
-					store : departmentStore,
-					valueField : 'department_namne',
-					displayField : 'department_name',
-					typeAhead : true,
-					queryMode : 'local',
-					emptyText : '请选择部门...',
-					allowBlank : false, // 是否允许空
-					blankText : '不能为空，请选择有效信息',// 错误提示信息
-					msgTarget : 'qtip', // 在该组件的下面显示错误提示信息
-					// selectOnFocus : true,
-					listeners : {
-						select : function(combo, record, index) {
-							var form = this.up('form').getForm();
-							form.findField('department_id').setValue(record[0]
-									.get('department_id'));
-							form.findField('department_name')
-									.setValue(record[0].get('department_name'));
-							// alert(form.findField('department_name').getValue());
-						}
-					}
-				}, {
+				},  {
 					xtype : "datefield",
 					name : "check_date",
 					fieldLabel : "点收日期",
@@ -489,11 +681,20 @@ Ext.onReady(function() {
 					value : '详细'
 				}, {
 					xtype : "hiddenfield",
-					name : "department_id"
+					name : "product_name"
+				}, {
+					xtype : "hiddenfield",
+					name : "department_name"
 				}, {
 					xtype : "hiddenfield",
 					name : "evaluation_message",
 					value : "评价"
+				}, {
+					xtype : "hiddenfield",
+					name : "control_item_id"
+				}, {
+					xtype : "hiddenfield",
+					name : "control_item_name"
 				}],
 		buttons : [{
 					text : '重置',
@@ -516,14 +717,14 @@ Ext.onReady(function() {
 								params : {
 									'formJson' : Ext.JSON.encode(form
 											.getValues()),
-									'conItValue' : formAction
+									'action' : formAction
 								},
 								waitTitle : '请稍后',
 								waitMsg : '正在提交中...',
 								url : "./CostExpendServlet",
 								success : function(form, action) {
 									Ext.Msg.alert('Success', action.result.msg);
-									grid.getStore().reload();
+									costExpendGrid.getStore().reload();
 									// 更新store内的数据
 									// form.updateRecord(record);
 									// costExpendStore.commitChanges();
@@ -543,69 +744,89 @@ Ext.onReady(function() {
 
 	});
 	var dataViewFormPanel = Ext.create("Ext.form.Panel", {
+				id : 'dataViewFormPanel',
 				autoHeight : true,
 				width : '100%',
-				bodyPadding : 10,
+				// bodyPadding : 10,
+				// margin :'10 10 10 10' ,
 				border : false,
+				layout : 'column',
 				defaults : {
-					anchor : '100%',
-					labelWidth : 100
+					layout : {
+						type : 'vbox',
+						align : 'stretch'
+					},
+
+					defaults : {
+						anchor : '100%'
+					}
 				},
 				items : [{
-							xtype : "displayfield",
-							name : "cost_expend_id",
-							fieldLabel : "成本支出ID",
-							hidden : true
+							columnWidth : .5,
+							margin : '5 20 5 10',
+							border : true,
+							items : [{
+										xtype : "displayfield",
+										name : "cost_expend_id",
+										fieldLabel : "成本支出ID",
+										hidden : true
+									}, {
+										xtype : "displayfield",
+										name : "cost_expend_name",
+										fieldLabel : "成本支出名称"
+									}, {
+										xtype : "displayfield",
+										name : "product_id",
+										fieldLabel : "产品编号:"
+									}, {
+										xtype : "displayfield",
+										name : "specification",
+										fieldLabel : "规格:"
+									}, {
+										xtype : "displayfield",
+										name : "count",
+										fieldLabel : "数量"
+									}, {
+										xtype : "displayfield",
+										name : "price",
+										fieldLabel : "单价",
+										renderer : function(value) {
+											return value + '元';
+										}
+									}, {
+										xtype : "displayfield",
+										name : "sum",
+										fieldLabel : "金额",
+										renderer : function(value) {
+											return value + '元';
+										}
+									}]
 						}, {
-							xtype : "displayfield",
-							name : "cost_expend_name",
-							fieldLabel : "成本支出名称",
-							value : "卫生纸"
-						}, {
-							xtype : "displayfield",
-							name : "specification",
-							fieldLabel : "产品编号:",
-							value : "SY-003"
-						}, {
-							xtype : "displayfield",
-							name : "specification",
-							fieldLabel : "规格:",
-							value : "10mm*1mm"
-						}, {
-							xtype : "displayfield",
-							name : "count",
-							fieldLabel : "数量",
-							value : "20"
-						}, {
-							xtype : "displayfield",
-							name : "price",
-							fieldLabel : "单价",
-							value : "2"
-						}, {
-							xtype : "displayfield",
-							name : "sum",
-							fieldLabel : "金额",
-							value : "40"
-						}, {
-							xtype : "displayfield",
-							name : "providerd",
-							fieldLabel : "供应商",
-							value : "八方购物广场"
-						}, {
-							xtype : "displayfield",
-							name : "check_date",
-							fieldLabel : "点收日期:",
-							value : "2014-11-6"
-						}, {
-							xtype : "displayfield",
-							name : "check_date",
-							fieldLabel : "采购部门:",
-							value : "综合科"
-						}, {
-							xtype : "displayfield",
-							name : "check_date",
-							fieldLabel : "使用部门:",
-							value : "客运车间"
+							columnWidth : .5,
+							margin : '5 10 5 20',
+							border : true,
+							items : [{
+										xtype : "displayfield",
+										name : "providerd",
+										fieldLabel : "供应商"
+									}, {
+										xtype : "displayfield",
+										name : "providerd_choose",
+										fieldLabel : "供应商选择:"
+									}, {
+										xtype : "displayfield",
+										name : "check_date",
+
+										fieldLabel : "点收日期:"
+									}, {
+										xtype : "displayfield",
+										name : "department_name",
+										fieldLabel : "采购部门:"
+									}, {
+										xtype : "displayfield",
+										name : "use_department",
+										fieldLabel : "使用部门:"
+									}]
 						}]
 
 			});
@@ -644,9 +865,30 @@ Ext.onReady(function() {
 				}
 			});
 
+	/*
+	 * 自动缩放表格
+	 */
+	Ext.EventManager.onWindowResize(function() {
+				costExpendGrid.getView().refresh()
+			})
+
 });
 
-function openDateView(value) {
+function openDateView(record) {
+	var form = Ext.getCmp('dataViewFormPanel').getForm();
+	form.loadRecord(record);
+	imagesStore.load({
+				params : {
+					action : 'img',
+					product_id : record.get('product_id')
+
+				}
+			});
 	dateViewWindow.show();
+
+}
+function toMsg(value) {
+	window.open('http://' + webPath + "message_board_admin.jsp?costExpenID="
+			+ value);
 
 }

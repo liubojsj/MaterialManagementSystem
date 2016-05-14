@@ -53,8 +53,8 @@ Ext.onReady(function() {
 				}, {
 					name : 'cooperation_partner',
 					type : 'string'
-				}]
-			// idProperty : 'control_item_id'
+				}],
+			 idProperty : 'control_item_id'
 		});
 
 	/*
@@ -97,9 +97,13 @@ Ext.onReady(function() {
 				pageSize : 10,
 				proxy : {
 					type : 'ajax',
-					url : './CostExpendServlet?conItValue=' + tabid,
+					url : './CostExpendServlet',
 					actionMethods : {
 						read : 'POST'
+					},
+					extraParams : {
+						action : "list",
+						'department_id' : department_id
 					},
 					reader : {
 						type : 'json',
@@ -113,7 +117,22 @@ Ext.onReady(function() {
 	 */
 	var departmentStore = Ext.create('Ext.data.Store', {
 				model : 'Department',
-				data : Ext.decode(departmentJson)
+				proxy : {
+
+					type : 'ajax',
+					url : './DepartmentServlet',
+					extraParams : {
+						"action" : "getAll"
+					},
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						root : 'date'
+					}
+				},
+				autoLoad : true
 			})
 	/*
 	 * ==================定义供应商选择模式==================
@@ -176,47 +195,6 @@ Ext.onReady(function() {
 
 											}
 										});
-							}
-						}, '->', {
-							xtype : 'button',
-							text : '新增',
-							id : 'btnAdd',
-							handler : function() {
-								costExpendFormPanel.getForm().reset();
-								formAction = 'add';
-								formWindow.setTitle('新增公示项目');
-								formWindow.show();
-							}
-
-						}, '-', {
-							xtype : 'button',
-							text : '修改',
-							id : 'btnUpdate',
-							listeners : {
-								"click" : function(btn) {
-									var data = grid.getSelectionModel();
-									if (!data.hasSelection()) {
-										Ext.MessageBox.alert("提示",
-												"请先选择您要操作的行!");
-										return;
-									} else {
-										// costExpendFormPanel.getForm().reset()
-										formAction = 'update';
-										formWindow.setTitle('修改公示项目')
-										formWindow.show();
-										// updateGrid();
-									}
-								}
-							}
-						}, '-', {
-							xtype : 'button',
-							text : '删除',
-							id : 'btnDelet',
-							listeners : {
-								"click" : function(btn) {
-
-									delGrid();
-								}
 							}
 						}],
 				columns : [{
@@ -314,218 +292,6 @@ Ext.onReady(function() {
 				renderTo : Ext.getBody()
 			});
 
-	/*
-	 * =================选中表格内容后赋值给相应的表单=================
-	 */
-
-	grid.on('itemclick', function(view, record) {
-				var form = costExpendFormPanel.getForm();
-				// console.log(record.get('cost_expend_name')) ;
-				form.loadRecord(record);
-			});
-
-		function delGrid() {
-		var data = grid.getSelectionModel().getSelection()
-		// alert(data );
-		if (data.length == 0) {
-			Ext.MessageBox.show({
-				title : "提示",
-				msg : "请先选择您要操作的行!"
-					// icon: Ext.MessageBox.INFO
-				});
-			return;
-		} else {
-			Ext.Msg.confirm("请确认", "是否真的要删除数据？", function(button, text) {
-				if (button == "yes") {
-					var ids = [];
-					Ext.Array.each(data, function(record) {
-								var cost_expend_id = record
-										.get('cost_expend_id');
-								// 如果删除的是幻影数据，则id就不传递到后台了，直接在前台删除即可
-								if (cost_expend_id) {
-									ids.push(cost_expend_id);
-								}
-
-							});
-					//alert(ids.join(',')) ;
-					Ext.Ajax.request({
-						url : './CostExpendServlet?conItValue=del',
-						params : {
-							cost_expend_id : ids.join(',')
-						},
-						method : 'POST',
-						// timeout : 2000,//默认30秒
-						success : function(response, opts) {
-
-							// store.loadPage(1);
-
-							var success = Ext.decode(response.responseText).success;
-							// 当后台数据同步成功时
-							if (success) {
-								Ext.Array.each(data, function(record) {
-											costExpendStore.remove(record);// 页面效果
-										});
-								Ext.MessageBox.alert('提示', '数据删除成功!');
-							} else {
-								Ext.MessageBox.alert('提示', '数据删除失败!');
-							}
-
-						}
-					});
-				}
-			});
-
-		}
-
-	}
-
-	var costExpendFormPanel = Ext.create("Ext.form.Panel", {
-		autoHeight : true,
-		width : '100%',
-		bodyPadding : 10,
-		border : false,
-		defaults : {
-			anchor : '100%',
-			labelWidth : 100
-		},
-		items : [{
-					xtype : "numberfield",
-					name : "cost_expend_id",
-					fieldLabel : "成本支出ID",
-					hidden : true
-				}, {
-					xtype : "textfield",
-					name : "cost_expend_name",
-					fieldLabel : "成本支出名称"
-				}, {
-					xtype : "textfield",
-					name : "specification",
-					fieldLabel : "规格"
-				}, {
-					xtype : "numberfield",
-					name : "count",
-					fieldLabel : "数量"
-				}, {
-					xtype : "numberfield",
-					name : "price",
-					fieldLabel : "单价"
-				}, {
-					xtype : "numberfield",
-					name : "sum",
-					fieldLabel : "金额"
-				}, {
-					xtype : "textfield",
-					name : "providerd",
-					fieldLabel : "供应商"
-				}, {
-					xtype : 'combobox',
-					fieldLabel : '供应商选择方式',
-					name : 'providerd_choose',
-					store : providerdStore,
-					valueField : 'chooseName', // 需要提交的值
-					displayField : 'chooseName', // 显示的值
-					typeAhead : true,
-					queryMode : 'local',
-					emptyText : '请选择...',
-					allowBlank : false,// 是否允许空
-					blankText : '不能为空，请选择有效信息',// 错误提示信息
-					msgTarget : 'qtip',// 在该组件的下面显示错误提示信息
-					selectOnFocus : true
-
-				}, {
-					xtype : 'combobox',
-					fieldLabel : '责任科室',
-					name : 'department_name',
-					store : departmentStore,
-					valueField : 'department_namne',
-					displayField : 'department_name',
-					typeAhead : true,
-					queryMode : 'local',
-					emptyText : '请选择部门...',
-					allowBlank : false, // 是否允许空
-					blankText : '不能为空，请选择有效信息',// 错误提示信息
-					msgTarget : 'qtip', // 在该组件的下面显示错误提示信息
-					//selectOnFocus : true,
-					listeners : {
-						select : function(combo, record, index) {
-							var form = this.up('form').getForm();
-							form.findField('department_id').setValue(record[0].get('department_id'));
-							form.findField('department_name').setValue(record[0].get('department_name'));
-							//alert(form.findField('department_name').getValue());
-						}
-					}
-				}, {
-					xtype : "datefield",
-					name : "check_date",
-					fieldLabel : "点收日期",
-					hidden : false
-				}, {
-					xtype : "hiddenfield",
-					name : "details",
-					value : '详细'
-				}, {
-					xtype : "hiddenfield",
-					name : "department_id"
-				}, {
-					xtype : "hiddenfield",
-					name : "evaluation_message",
-					value : "评价"
-				}],
-		buttons : [{
-					text : '重置',
-					handler : function() {
-						this.up('form').getForm().reset();
-					}
-				}, {
-					text : '提交',
-					formBind : true, // only enabled once the form is valid
-					disabled : true,
-					handler : function() {
-						var form = this.up('form').getForm();
-						if (form.isValid()) {
-							form.submit({
-								method : 'POST',
-								// headers : {
-								// 'Content-Type' :
-								// 'application/json;charset=utf-8'
-								// },
-								params : {
-									'formJson' : Ext.JSON.encode(form
-											.getValues()),
-									'conItValue' : formAction
-								},
-								waitTitle : '请稍后',
-								waitMsg : '正在提交中...',
-								url : "./CostExpendServlet",
-								success : function(form, action) {
-									Ext.Msg.alert('Success', action.result.msg);
-									grid.getStore().reload();
-//									 更新store内的数据
-//									form.updateRecord(record);
-//									costExpendStore.commitChanges();
-									this.up('form').getForm().reset();
-								},
-								failure : function(form, action) {
-								Ext.Msg.alert('Failed', action.result.msg);
-								}
-							});
-
-						}
-
-						formWindow.close();
-					}
-
-				}]
-
-	});
-	var formWindow = Ext.create("Ext.window.Window", {
-				title : "修改受控事项",
-				closeAction : "hide",// 设置该属性新增窗口关闭的时候是隐藏
-				width : 400,
-				height : 400,
-				items : costExpendFormPanel,
-				layout : "fit"
-			});
 
 	var keyWord = Ext.getCmp('KeyWord').getValue();
 	costExpendStore.load({

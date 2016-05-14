@@ -5,11 +5,7 @@
 	String path = request.getContextPath();
 	String basePath = request.getServerName() + ":" + request.getServerPort()
 	+ path + "/";
-	String tabid = request.getParameter("tabid");
-	request.getSession().setAttribute("tabid", tabid);
-	ServletContext context = request.getSession().getServletContext();
-	String departmentJson = (String) context
-			.getAttribute("departmentJson");
+
 	User user = (User)request.getSession().getAttribute("user") ;
 	boolean userRole = false ;
 	if(user!=null){
@@ -26,8 +22,7 @@
 			href="ExtJS4.2.1/resources/css/ext-all.css">
 		<script type="text/javascript">
 		var webPath = '<%=basePath%>';
-		var departmentJson = '<%=departmentJson%>';
-		var tabid = '<%=request.getSession().getAttribute("tabid")%>';
+		var department_id = '<%=request.getParameter("department_id")%>';
 		var userRole = <%=userRole%> ;
 		</script>
 		<!-- 引用extjs 引导文件 -->

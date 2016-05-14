@@ -5,8 +5,8 @@
 	String path = request.getContextPath();
 	String basePath = request.getServerName() + ":" + request.getServerPort()
 	+ path + "/";
-	String tabid = request.getParameter("tabid");
-	request.getSession().setAttribute("tabid", tabid);
+	String department_id = request.getParameter("department_id");
+	
 	ServletContext context = request.getSession().getServletContext();
 	User user = (User)request.getSession().getAttribute("user") ;
 	boolean userRole = false ;
@@ -26,6 +26,7 @@
 		var webPath = '<%=basePath%>';
 		var tabid = '<%=request.getSession().getAttribute("tabid")%>';
 		var userRole = <%=userRole%> ;
+		var department_id = <%=department_id%> ;
 		</script>
 		<!-- 引用extjs 引导文件 -->
 		<!-- 此文件要放到资源国际化文件之前，否则国际化并不会成功！ -->

@@ -2,6 +2,7 @@
 {children:[{
     text:'受控事项',
     id:'control_item', 
+ //   href:'javascript:openTab(\'control_item.jsp\',\'control_item\',\'Y\')',
     href:'javascript:openTab(\'control_item.jsp\',\'control_item\')',
     leaf:true
 },{

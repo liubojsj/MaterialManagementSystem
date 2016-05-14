@@ -4,7 +4,7 @@ var iWidth;
 var iHeight;
 var departmentStore;
 var formWindow;
-var repairStore ;
+var repairStore;
 Ext.onReady(function() {
 	repairStore = Ext.create('Ext.data.Store', {
 				fields : ['repairId', 'repairName'],
@@ -19,21 +19,23 @@ Ext.onReady(function() {
 	}
 	iWidth = Ext.get('pageWidth').getWidth();
 	iHeight = Ext.get('pageWidth').getHeight();
+//	console.log(iHeight);
 	/**
 	 * 定义标签.
 	 */
-	tabs = Ext.create('Ext.TabPanel', {
+	tabs = Ext.create('Ext.TabPanel', { 
 				id : 'tabpanel',
 				frame : false, // 填充框架内部颜色
 				// border : false,
-				height : iHeight - 144,
+				// layout: 'fit' ,
+				height : iHeight ,//- 144
 				minTabWidth : 115,
 				tabWidth : 125,
 				resizeTabs : true,
 				activeTab : 0,
 				enableTabScroll : true,
-				bodyStyle : 'border-width:0px 0 0px 0;',
-				bodyStyle : 'border-width:0px 0 0 0; background:transparent',
+//				bodyStyle : 'border-width:0px 0 0px 0;',
+//				bodyStyle : 'border-width:0px 0 0 0; background:transparent',
 				defaults : {
 					autoScroll : true
 				},
@@ -90,34 +92,37 @@ Ext.onReady(function() {
 			children : [{
 				text : "部门录入",
 				leaf : false,
-				children :[{
-					id:'control_item', 
-					text:"受控事项" ,
+				children : [{
+					id : 'control_item',
+					text : "受控事项",
 					leaf : true,
 					href : 'javascript:openTabAdmin(\'control_item_admin.jsp\',\'control_item_admin\')'
-				},{
-					id:'cost_expend', 
-					text:"公示评价" ,
+				}, {
+					id : 'cost_expend',
+					text : "公示评价",
 					leaf : true,
 					href : 'javascript:openTabAdmin(\'cost_expend_admin.jsp\',\'cost_expend_admin\')'
+				}, {
+					id : 'construction_repair_admin',
+					text : "基建维修",
+					leaf : true,
+					href : 'javascript:openTabConstructionRepair(\'construction_repair_admin.jsp\',\'construction_repair_admin\')'
 				}]
-				
-			}, {
-				text : "权利监督",
-				expanded : false,
-				leaf : true,
-				href : 'javascript:openTabAdmin(\'department_supervise_of_cost_expend.jsp\',\'department_supervise_of_cost_expend\')'
-			}, {
-				text : "基建维修",
-				expanded : false,
-				leaf : true,
-				href : 'javascript:openTabConstructionRepair(\'construction_repair.jsp\',\'construction_repair\')'
-			}, {
-				text : "物品管理",
-				expanded : false,
-				leaf : true,
-				href : 'javascript:openTabAdmin(\'material_manage.jsp\',\'material_manage\')'
-			}]
+
+			},
+					// {
+					// text : "权利监督",
+					// expanded : false,
+					// leaf : true,
+					// href :
+					// 'javascript:openTabAdmin(\'department_supervise_of_cost_expend.jsp\',\'department_supervise_of_cost_expend\')'
+					// },
+					{
+						text : "数据维护",
+						expanded : false,
+						leaf : true,
+						href : 'javascript:openTabAdmin(\'material_manage.jsp\',\'material_manage\')'
+					}]
 		}
 	});
 
@@ -227,15 +232,17 @@ Ext.onReady(function() {
 				},
 				items : [{
 							region : 'north',
+							id : 'northPanel',
 							collapsible : true,
-							title : '当前登录:超级用户',
+							title : login_username,
 							height : 100,
 							html : '<center><h1>唐山站"成本大项"监管运用平台</h1></center>'
 						}, {
 							region : 'west',
+							id : 'westPanel',
 							collapsible : true,
 							title : '项目',
-							width : '20%',
+							width : '15%',
 							items : [accordionPanel]
 						}, {
 							region : 'center',
@@ -266,15 +273,24 @@ Ext.onReady(function() {
 						}]
 			});
 	departmentStore = Ext.create('Ext.data.Store', {
-		model : 'Department',
-		data : Ext.decode(departmentJson)
-			// proxy : {
-			// type : 'ajax',
-			// url : './DepartmentServlet?depValue=getAll',
-			// reader : 'json'
-			// },
-			// autoLoad : true
-		})
+				model : 'Department',
+				proxy : {
+
+					type : 'ajax',
+					url : './DepartmentServlet',
+					extraParams : {
+						"action" : "getAll"
+					},
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						root : 'date'
+					}
+				},
+				autoLoad : true
+			})
 
 	loginForm = Ext.create("Ext.form.Panel", {
 
@@ -292,13 +308,11 @@ Ext.onReady(function() {
 					allowBlank : false,
 					fieldLabel : '用户名',
 					name : 'UserName',
-					value : 'admin' ,
 					emptyText : '用户名'
 				}, {
 					allowBlank : false,
 					fieldLabel : '密        码',
 					name : 'Password',
-					value : 'admin' ,
 					emptyText : '密码',
 					inputType : 'password'
 				}// ,
@@ -332,14 +346,11 @@ Ext.onReady(function() {
 								url : "./ActionServlet",
 								success : function(form, action) {
 									userRole = true;
-									// alert(userRole);
 									Ext.Msg.alert('Success', action.result.msg);
-									// grid.getStore().reload();
-									// 更新store内的数据
-									// form.updateRecord(record);
-									// costExpendStore.commitChanges();
 									loginForm.getForm().reset();
-
+//									console.log( action.result.username) ;
+//									console.log(Ext.getCmp('northPanel').title) ;
+									Ext.getCmp('northPanel').setTitle("当前登录:"+action.result.username) ;
 								},
 								failure : function(form, action) {
 									Ext.Msg.alert('Failed', action.result.msg);
@@ -368,29 +379,7 @@ Ext.onReady(function() {
 
 });
 function openTab(url, menu_id, hiddenNaviFlag) {
-	/*
-	 * 设置默认打开标签
-	 */
-	var departmentArray = new Array();
-	var records = departmentStore.getRange(0, (departmentStore.getCount() - 1));
-
-	for (var i = 0; i < records.length; i++) {
-		var record = records[i];
-		// Ext.Msg.alert('', departmentJson);
-		if (record.get('department_name') != "唐山站") {
-			var tempArray = new Array();
-
-			tempArray.push(record.get('department_name'));
-			tempArray.push(record.get('department_name_abbreviation'));
-			tempArray.push(record.get('department_id'));
-			departmentArray.push(tempArray);
-		}
-	}
-	var i, j;
-	var paraLink = "?";
-	if (url.indexOf("?") > -1) {
-		paraLink = "&";
-	}
+	// hiddenNaviFlag为"Y"时收缩左面板
 	if (hiddenNaviFlag != null && hiddenNaviFlag != "null"
 			&& hiddenNaviFlag != "" && hiddenNaviFlag == "Y") {
 		Ext.getCmp('westPanel').collapse();
@@ -404,37 +393,37 @@ function openTab(url, menu_id, hiddenNaviFlag) {
 			tabs.remove(tabobj);
 		}
 	}
-	for (i = 0; i < departmentArray.length; i++) {
-		menu_id = departmentArray[i][1].toString() + ","
-				+ departmentArray[i][2].toString();
-		var flagActive = false;
-		tabs.add({
-			id : 'tab' + menu_id,
-			title : departmentArray[i][0].toString(),
-			html : '<iframe id=\'frame'
-					+ menu_id
-					+ '\' src='
-					+ _url
-					+ '?tabid='
-					+ menu_id
-					+ ' frameborder="0" width=100% height=100% scrolling="no" ></iframe>',
-			active : flagActive,
-			closable : false
+	departmentStore.each(function(record) {
+		if (record.get('leaf_department')) {
 
-		});
+			var flagActive = false;
+			tabs.add({
+				id : 'tab' + record.get('department_id'),
+				title : record.get('department_name'),
+				html : '<iframe id=\'frame'
+						+ menu_id
+						+ '\' src='
+						+ _url
+						+ '?department_id='
+						+ record.get('department_id')
+						+ ' frameborder="0" width=100% height=100% scrolling="no" ></iframe>',
+				active : flagActive,
+//				autoScroll : true,
+				closable : false
 
-		/**
-		 * 设置当前活动标签 0为第一个标签(综合科) 1为第二个标签(房建科)
-		 */
-		/**
-		 * 当i=1时第一个标签为什么不显示?原因见http://blog.sina.com.cn/s/blog_a5f093b4010176l3.html
-		 */
-		if (i == 0) {
-			tabs.setActiveTab('tab' + menu_id);
+			});
 		}
-	}
 
-	// tabs.activate(0);
+			/**
+			 * 设置当前活动标签 0为第一个标签(综合科) 1为第二个标签(房建科)
+			 */
+			/**
+			 * 当i=1时第一个标签为什么不显示?原因见http://blog.sina.com.cn/s/blog_a5f093b4010176l3.html
+			 */
+
+	});
+
+	tabs.setActiveTab(0);
 
 }
 
@@ -442,30 +431,6 @@ function openTabAdmin(url, menu_id, hiddenNaviFlag) {
 	// alert(userRole);
 	if (userRole) {
 
-		/*
-		 * 设置默认打开标签
-		 */
-		var departmentArray = new Array();
-		var records = departmentStore.getRange(0,
-				(departmentStore.getCount() - 1));
-
-		for (var i = 0; i < records.length; i++) {
-			var record = records[i];
-			// Ext.Msg.alert('', departmentJson);
-			if (record.get('department_name') != "唐山站") {
-				var tempArray = new Array();
-
-				tempArray.push(record.get('department_name'));
-				tempArray.push(record.get('department_name_abbreviation'));
-				tempArray.push(record.get('department_id'));
-				departmentArray.push(tempArray);
-			}
-		}
-		var i, j;
-		var paraLink = "?";
-		if (url.indexOf("?") > -1) {
-			paraLink = "&";
-		}
 		if (hiddenNaviFlag != null && hiddenNaviFlag != "null"
 				&& hiddenNaviFlag != "" && hiddenNaviFlag == "Y") {
 			Ext.getCmp('westPanel').collapse();
@@ -479,93 +444,93 @@ function openTabAdmin(url, menu_id, hiddenNaviFlag) {
 				tabs.remove(tabobj);
 			}
 		}
-		for (i = 0; i < departmentArray.length; i++) {
-			menu_id = departmentArray[i][1].toString() + ","
-					+ departmentArray[i][2].toString();
-			var flagActive = false;
-			tabs.add({
-				id : 'tab' + menu_id,
-				title : departmentArray[i][0].toString(),
-				html : '<iframe id=\'frame'
-						+ menu_id
-						+ '\' src='
-						+ _url
-						+ '?tabid='
-						+ menu_id
-						+ ' frameborder="0" width=100% height=100% scrolling="no" ></iframe>',
-				active : flagActive,
-				closable : false
+		departmentStore.each(function(record) {
+			if (record.get('leaf_department')) {
+				var flagActive = false;
+				tabs.add({
+					id : 'tab' + record.get('department_id'),
+					title : record.get('department_name'),
+					html : '<iframe id=\'frame'
+							+ menu_id
+							+ '\' src='
+							+ _url
+							+ '?department_id='
+							+ record.get('department_id')
+							+ ' frameborder="0" width=100% height=100% scrolling="no" ></iframe>',
+					active : flagActive,
+					closable : false
 
-			});
-
-			/**
-			 * 设置当前活动标签 0为第一个标签(综合科) 1为第二个标签(房建科)
-			 */
-			/**
-			 * 当i=1时第一个标签为什么不显示?原因见http://blog.sina.com.cn/s/blog_a5f093b4010176l3.html
-			 */
-			if (i == 0) {
-				tabs.setActiveTab('tab' + menu_id);
+				});
 			}
-		}
+
+				/**
+				 * 设置当前活动标签 0为第一个标签(综合科) 1为第二个标签(房建科)
+				 */
+				/**
+				 * 当i=1时第一个标签为什么不显示?原因见http://blog.sina.com.cn/s/blog_a5f093b4010176l3.html
+				 */
+
+		});
+
+		tabs.setActiveTab(0);
+
 	} else {
 		Ext.getCmp('loginformWindow').show();
 	}
 }
 function openTabConstructionRepair(url, menu_id) {
 
-		/*
-		 * 设置默认打开标签
+	/*
+	 * 设置默认打开标签
+	 */
+	var departmentArray = new Array();
+	var records = repairStore.getRange(0, (repairStore.getCount() - 1));
+
+	for (var i = 0; i < records.length; i++) {
+		var record = records[i];
+		// Ext.Msg.alert('', departmentJson);
+		if (record.get('department_name') != "唐山站") {
+			var tempArray = new Array();
+
+			tempArray.push(record.get('repairName'));
+			tempArray.push(record.get('repairId'));
+			departmentArray.push(tempArray);
+		}
+	}
+	var _url = webPath + '/' + url;
+	// 如果标签已经存在则关闭 重新打开.
+	var ltemTabLenght = tabs.items.length;
+	if (ltemTabLenght > 0) {
+		for (var i = 0; i < ltemTabLenght; i++) {
+			var tabobj = tabs.items.get(0);
+			tabs.remove(tabobj);
+		}
+	}
+	for (i = 0; i < departmentArray.length; i++) {
+		menu_id = departmentArray[i][0].toString() + ","
+				+ departmentArray[i][1].toString();
+		tabs.add({
+			id : 'tab' + menu_id,
+			title : departmentArray[i][0].toString(),
+			html : '<iframe id=\'frame'
+					+ menu_id
+					+ '\' src='
+					+ _url
+					+ '?tabid='
+					+ menu_id
+					+ ' frameborder="0" width=100% height=100% scrolling="no" ></iframe>',
+			closable : false
+		});
+
+		/**
+		 * 设置当前活动标签 0为第一个标签(综合科) 1为第二个标签(房建科)
 		 */
-		var departmentArray = new Array();
-		var records = repairStore.getRange(0,
-				(repairStore.getCount() - 1));
-
-		for (var i = 0; i < records.length; i++) {
-			var record = records[i];
-			// Ext.Msg.alert('', departmentJson);
-			if (record.get('department_name') != "唐山站") {
-				var tempArray = new Array();
-
-				tempArray.push(record.get('repairName'));
-				tempArray.push(record.get('repairId'));
-				departmentArray.push(tempArray);
-			}
+		/**
+		 * 当i=1时第一个标签为什么不显示?原因见http://blog.sina.com.cn/s/blog_a5f093b4010176l3.html
+		 */
+		if (i == 0) {
+			tabs.setActiveTab('tab' + menu_id);
 		}
-		var _url = webPath + '/' + url;
-		// 如果标签已经存在则关闭 重新打开.
-		var ltemTabLenght = tabs.items.length;
-		if (ltemTabLenght > 0) {
-			for (var i = 0; i < ltemTabLenght; i++) {
-				var tabobj = tabs.items.get(0);
-				tabs.remove(tabobj);
-			}
-		}
-		for (i = 0; i < departmentArray.length; i++) {
-			menu_id = departmentArray[i][0].toString() + ","
-					+ departmentArray[i][1].toString();
-			tabs.add({
-				id : 'tab' + menu_id,
-				title : departmentArray[i][0].toString(),
-				html : '<iframe id=\'frame'
-						+ menu_id
-						+ '\' src='
-						+ _url
-						+ '?tabid='
-						+ menu_id
-						+ ' frameborder="0" width=100% height=100% scrolling="no" ></iframe>',
-				closable : false
-			});
-
-			/**
-			 * 设置当前活动标签 0为第一个标签(综合科) 1为第二个标签(房建科)
-			 */
-			/**
-			 * 当i=1时第一个标签为什么不显示?原因见http://blog.sina.com.cn/s/blog_a5f093b4010176l3.html
-			 */
-			if (i == 0) {
-				tabs.setActiveTab('tab' + menu_id);
-			}
-		}
+	}
 
 }

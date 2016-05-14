@@ -79,9 +79,13 @@ Ext.onReady(function() {
 				pageSize : 10,
 				proxy : {
 					type : 'ajax',
-					url : './ControlItemServlet?conItValue=' + tabid,
+					url : './ControlItemServlet',
 					actionMethods : {
 						read : 'POST'
+					},
+					extraParams : {
+						action : "list",
+						'department_id' : department_id
 					},
 					reader : {
 						type : 'json',
@@ -95,7 +99,22 @@ Ext.onReady(function() {
 	 */
 	var departmentStore = Ext.create('Ext.data.Store', {
 				model : 'Department',
-				data : Ext.decode(departmentJson)
+				proxy : {
+
+					type : 'ajax',
+					url : './DepartmentServlet',
+					extraParams : {
+						"action" : "getAll"
+					},
+					actionMethods : {
+						read : 'POST'
+					},
+					reader : {
+						type : 'json',
+						root : 'date'
+					}
+				},
+				autoLoad : true
 			})
 
 	/**
@@ -110,139 +129,138 @@ Ext.onReady(function() {
 			});
 
 	var grid = Ext.create('Ext.grid.GridPanel', {
-				store : controlItemStore,
-				id : 'myGridPanel',
-				forceFit : true,
-				frame : false,
-				stripeRows : true,
-				loadMask : true,
-				tbar : [{
-							xtype : 'label',
-							text : '请输入关键词：'
-						}, {
-							xtype : 'textfield',
-							id : 'KeyWord'
-						}, {
-							text : '搜索',
-							handler : function() {
-								var keyWord = Ext.getCmp('KeyWord').getValue();
+		store : controlItemStore,
+		id : 'myGridPanel',
+		forceFit : true,
+		frame : false,
+		stripeRows : true,
+		loadMask : true,
+		tbar : [{
+					xtype : 'label',
+					text : '请输入关键词：'
+				}, {
+					xtype : 'textfield',
+					id : 'KeyWord'
+				}, {
+					text : '搜索',
+					handler : function() {
+						var keyWord = Ext.getCmp('KeyWord').getValue();
 
-								controlItemStore.load({
-											params : {
-												start : 0,
-												limit : 10,
-												foo : 'bar',
-												searchText : keyWord
+						controlItemStore.load({
+									params : {
+										start : 0,
+										limit : 10,
+										foo : 'bar',
+										searchText : keyWord
 
-											}
-										});
-							}
-						}, '->', {
-							xtype : 'button',
-							text : '新增',
-							id : 'btnAdd',
-							hidden : !userRole ,
-							handler : function() {
-								controlItemFormPanel.getForm().reset();
-								formAction = 'add';
-								formWindow.setTitle('新增受控事项');
-								formWindow.show();
-							}
-
-						}, '-', {
-							xtype : 'button',
-							text : '修改',
-							id : 'btnUpdate',
-							hidden : !userRole ,
-							listeners : {
-								"click" : function(btn) {
-									var data = grid.getSelectionModel();
-									if (!data.hasSelection()) {
-										Ext.MessageBox.alert("提示",
-												"请先选择您要操作的行!");
-										return;
-									} else {
-										// costExpendFormPanel.getForm().reset()
-										formAction = 'update';
-										formWindow.setTitle('修改公示项目')
-										formWindow.show();
-										// updateGrid();
 									}
-								}
-							}
-						}, '-', {
-							xtype : 'button',
-							text : '删除',
-							id : 'btnDelet',
-							hidden : !userRole ,
-							listeners : {
-								"click" : function(btn) {
+								});
+					}
+				}, '->', {
+					xtype : 'button',
+					text : '新增',
+					id : 'btnAdd',
+					hidden : !userRole,
+					handler : function() {
+						controlItemFormPanel.getForm().reset();
+						formAction = 'add';
+						formWindow.setTitle('新增受控事项');
+						formWindow.show();
+					}
 
-									delGrid();
-								}
+				}, '-', {
+					xtype : 'button',
+					text : '修改',
+					id : 'btnUpdate',
+					hidden : !userRole,
+					listeners : {
+						"click" : function(btn) {
+							var data = grid.getSelectionModel();
+							if (!data.hasSelection()) {
+								Ext.MessageBox.alert("提示", "请先选择您要操作的行!");
+								return;
+							} else {
+								// costExpendFormPanel.getForm().reset()
+								formAction = 'update';
+								formWindow.setTitle('修改公示项目')
+								formWindow.show();
+								// updateGrid();
 							}
-						}],
-				columns : [{
-							xtype : "rownumberer",
-							align : 'center',
-							text : "序号",
-							width : 50
-						}, {
-							header : '控制项目ID',
-							dataIndex : 'control_item_id',
-							sortable : true,
-							hidden : true
-						}, {
-							header : '责任科室ID',
-							dataIndex : 'department_id',
-							sortable : true,
-							hidden : true
-						}, {
-							header : '责任科室',
-							dataIndex : 'department_name',
-							sortable : true,
-							hidden : true
-						}, {
-							header : '受控事项',
-							dataIndex : 'control_item_name',
-							sortable : true
-						}, {
-							header : '管控特征',
-							dataIndex : 'cont_feature',
-							sortable : true,
-							renderer : function(value) {
-									if(value=="敏感问题"){
-									return "<a onclick='javascript:parent.openTabConstructionRepair(\"construction_repair.jsp\",\"construction_repair\")' >"
-										+ value + "</a>";
-										}else{
-										return value ;
-										}
-							}
-						}, {
-							header : '计划成本',
-							dataIndex : 'plan_cost',
-							hidden : true,
-							sortable : true
-						}, {
-							header : '动态支出',
-							dataIndex : 'dynamic_expend',
-							sortable : true
-						}, {
-							header : '节支金额',
-							dataIndex : 'cutting_down_expenditures_sum',
-							sortable : true,
-							hidden : true
-						}],
-				dockedItems : [{
-							xtype : 'pagingtoolbar',
-							dock : 'bottom',
-							displayInfo : true,
-							emptyMsg : "没有数据",
-							displayMsg : "显示从{0}条数据到{1}条数据，共{2}条数据",
-							store : controlItemStore
-						}],
-				renderTo : Ext.getBody()
-			});
+						}
+					}
+				}, '-', {
+					xtype : 'button',
+					text : '删除',
+					id : 'btnDelet',
+					hidden : !userRole,
+					listeners : {
+						"click" : function(btn) {
+
+							delGrid();
+						}
+					}
+				}],
+		columns : [{
+					xtype : "rownumberer",
+					align : 'center',
+					text : "序号",
+					width : 50
+				}, {
+					header : '控制项目ID',
+					dataIndex : 'control_item_id',
+					sortable : true,
+					hidden : true
+				}, {
+					header : '责任科室ID',
+					dataIndex : 'department_id',
+					sortable : true,
+					hidden : true
+				}, {
+					header : '责任科室',
+					dataIndex : 'department_name',
+					sortable : true,
+					hidden : true
+				}, {
+					header : '受控事项',
+					dataIndex : 'control_item_name',
+					sortable : true
+				}, {
+					header : '管控特征',
+					dataIndex : 'cont_feature',
+					sortable : true,
+					renderer : function(value) {
+						if (value == "敏感问题") {
+							return "<a onclick='javascript:parent.openTabConstructionRepair(\"construction_repair.jsp\",\"construction_repair\")' >"
+									+ value + "</a>";
+						} else {
+							return value;
+						}
+					}
+				}, {
+					header : '计划成本',
+					dataIndex : 'plan_cost',
+					hidden : true,
+					sortable : true
+				}, {
+					header : '动态支出',
+					dataIndex : 'dynamic_expend',
+					sortable : true
+				}, {
+					header : '节支金额',
+					dataIndex : 'cutting_down_expenditures_sum',
+					sortable : true,
+					hidden : true
+				}],
+		dockedItems : [{
+					xtype : 'pagingtoolbar',
+					dock : 'bottom',
+					displayInfo : true,
+					emptyMsg : "没有数据",
+					displayMsg : "显示从{0}条数据到{1}条数据，共{2}条数据",
+					store : controlItemStore
+				}],
+		renderTo : Ext.getBody()
+	});
 	grid.on('itemclick', function(view, record) {
 				var form = controlItemFormPanel.getForm();
 				// console.log(record.get('cost_expend_name')) ;
@@ -274,8 +292,9 @@ Ext.onReady(function() {
 							});
 
 					Ext.Ajax.request({
-						url : './ControlItemServlet?conItValue=del',
+						url : './ControlItemServlet',
 						params : {
+							action : 'delete',
 							control_item_id : ids.join(',')
 						},
 						method : 'POST',
@@ -380,14 +399,6 @@ Ext.onReady(function() {
 					xtype : "numberfield",
 					name : "plan_cost",
 					fieldLabel : "计划成本"
-				}, {
-					xtype : "numberfield",
-					name : "dynamic_expend",
-					fieldLabel : "动态支出"
-				}, {
-					xtype : "numberfield",
-					name : "cutting_down_expenditures_sum",
-					fieldLabel : "节支金额"
 				}],
 		buttons : [{
 					text : '重置',
@@ -408,14 +419,14 @@ Ext.onReady(function() {
 								params : {
 									'formJson' : Ext.JSON.encode(form
 											.getValues()),
-									'conItValue' : formAction
+									'action' : formAction
 								},
 								waitTitle : '请稍后',
 								waitMsg : '正在提交中...',
 								url : "./ControlItemServlet",
 								success : function(form, action) {
 									grid.getStore().reload();
-									this.up('form').getForm().reset();
+									form.reset();
 									Ext.Msg.alert('Success', action.result.msg);
 
 								},
@@ -439,7 +450,7 @@ Ext.onReady(function() {
 				title : "",
 				closeAction : "hide",// 设置该属性新增窗口关闭的时候是隐藏
 				width : 400,
-// height : 300,
+				// height : 300,
 				items : controlItemFormPanel,
 				layout : "fit"
 			});
@@ -453,4 +464,11 @@ Ext.onReady(function() {
 					searchText : keyWord
 				}
 			});
+
+	/*
+	 * 自动缩放表格
+	 */
+	Ext.EventManager.onWindowResize(function() {
+				grid.getView().refresh()
+			})
 });
